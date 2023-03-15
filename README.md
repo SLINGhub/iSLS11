@@ -23,7 +23,8 @@ Download the R Project containing the scripts and data used in this workshop fro
 We will make use of several external R packages in our scripts. Please install before the start of the workshop them using following lines in your R console:
 
     # CRAN packages
-    install.packages(c("here", "tidyverse", "ggrepel", "circlize", "scales", "devtools"))
+    install.packages(c("here", "tidyverse", "broom", "ggrepel", "ggpmisc", 
+                       "circlize", "scales", "devtools"))
 
     # Bioconductor packages
     if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
