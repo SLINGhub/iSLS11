@@ -309,7 +309,6 @@ d_final_wide <- d_final |>
   pivot_wider(id_cols = c(FILENAME, QC_TYPE), names_from = "LIPID", values_from = "CONC") 
 
 write_csv(d_final_wide, here("Part_1/output/qc_filtered_results.csv"))
-write_csv(d_final_wide, here("Part_2/output/qc_filtered_results.csv"))
 ```
 
 # References

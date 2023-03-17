@@ -35,9 +35,9 @@ We will make use of several external R packages in our scripts. Please install t
 
 ### Download the R scripts
 
-Download the R Project containing the scripts and data used in this workshop from this repository. Alternatively you can clone this repository in RStudio/git.
+Download the R Project containing the scripts and data used in this workshop from this repository (click on the green button "\<\>Code" and then "Download ZIP"). Alternatively you can clone this repository using RStudio and/or Git.
 
-![](images/image-1727897831.png){width="327"}
+![](images/image-1727897831.png){width="329"}
 
 Do not hesitate to contact us if you have any questions.
 
