@@ -3,9 +3,9 @@
 *iSLS11 Workshop on Data Processing and Statistical Analysis*
 
 > ```{=html}
-> <span style="color:red">NOTE: Please ensure you have R/RStudio and R packages installed before the workshop, see below. 
-> Contact us, if you encounter any issues!</span>
-> ```
+> NOTE: Please ensure you have R/RStudio and R packages installed before the workshop, see below. 
+> Contact us, if you encounter any issues!
+>```
 
 ## Summary
 
