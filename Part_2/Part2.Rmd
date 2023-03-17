@@ -1,23 +1,23 @@
 ---
 title: "Part 2: iSLS11 Data Analysis Workshop"
+author: "Hyungwon Choi"
 format: html
 editor: visual
 ---
 
 ## Introduction
 
-In this part of the workshop, we will explore the quantitative lipidomics data reported from the rigorous quality control process from Part 1. First we create an empty folder (Output) to store graphics and tables we will produce along the way.
+In this part of the workshop, we will explore the quantitative lipidomics data reported from the rigorous quality control process from Part 1. First we create an empty folder (output) to store graphics and tables we will produce along the way.
+
+Read concentration data (repeated measures), plaque volume data (subject level), and sample injection sequence table into **R**'s workspace from the folder named **data** In this data, each participant or subject has two to five visits for blood sampling. Meanwhile, each subject visited one more time for coronary artery imaging via computed tomography coronary angiography (CTCA) at the end of the follow-up. The concentration data were available for each visit, or at the `sample` level, and the plaque data were saved at the `subject` level.
 
 ```{r}
-dir.create("Output")
-```
+#getwd()
+rm(list=ls()) ### clear the deck
 
-Read concentration data, plaque volume data, and sample injection sequence table (forcing the software to avoid converting special characters) into **R**'s workspace from the **data** folder. In this data, each participant or subject has two to five visits for blood sampling. Meanwhile, each subject visited one more time for coronary artery imaging via computed tomography coronary angiography (CTCA) at the end of the follow-up. The concentration data were thus saved at each visit, or at the `sample` level, and the plaque data were saved at the `subject` level.
-
-```{r}
 ## (a) qdata refers to quantitative (concentration) data 
 ##     - repeated measures (sample level)
-qdata = read.delim("data/SPERFECT_concentration_data.txt", 
+qdata = read.csv("output/qc_filtered_results.csv", 
                    header=TRUE, as.is=TRUE, check.names=FALSE)
 
 ## pdata refers to plaque volume data -- at the subject level 
@@ -29,25 +29,34 @@ pdata = read.delim("data/SPERFECT_plaque_data.txt",
 ## (subjects appearing multiple times)
 sdata = read.delim("data/SPERFECT_MS_injection_sequence.txt", 
                    header=T, as.is=T, check.names=F) 
+
+colnames(qdata)[1] = "Sample ID"
 ```
 
-Note that CTCA could not be performed for all initially recruited subjects. Therefore we need to do some cleaning and matching of molecular, imaging, and other MS-related data (e.g. injection sequence).
+Note that CTCA could not be performed for all subjects. We need to do a little bit of matching and aligning exercise between the concentration table, MS analysis sequence table, and the CTCA (outcome) table. Piping is another easy way to do this, but this exercise will help you think about data structures and practice R coding.
 
 ## Section 1. Data Synchronization
 
-The goal of this section is to synchronize the three data sets by filtering and matching subjects across them. Let's check the concentration data first. We confirm first that each subject was repeatedly sampled multiple times (3 to 5 times mostly).
+The goal of this section is to synchronize the three data sets by filtering and matching subjects. Let's check the concentration data first. We verify that each subject was repeatedly sampled multiple times (3 to 5 times mostly).
 
 ```{r}
-tmp = t(qdata[,-1]) ## first colume was sample ID (not subject ID!)
+tmp = t(qdata[,-c(1:2)]) 
+## first two columns were sample ID (not subject ID!) and 
+## injection sample type (QC / Sample)
 par(mfrow=c(1,1), mar=c(2,2,2,2))
 boxplot(log2(tmp), cex=.1, las=2, main="Lipidome distributions")
 
+## Notice that there is an outlier almost at the end of the 
+## analysis sequence. In the original data, turns out that 
+## there 
 ## Uncomment the line to identify the sample with aberrant level
-# apply(log2(tmp), 2, function(x) mean(x, na.rm=TRUE))
+apply(log2(tmp), 2, function(x) mean(x, na.rm=TRUE))
 
 ## It turns out that 376th column
-rr = qdata$SampleID[376]
+rr = qdata$`Sample ID`[376]
+rr
 ss = sdata$`Subject ID`[sdata$`Sample ID` == rr] 
+ss
 # This individual has only three data points and we have to remove one.
 # He/she will later be disqualified from the analysis. 
 
@@ -72,10 +81,11 @@ for(i in 1:nrow(sdata)) {
   tmp = strsplit(sdata$`Sample ID`[i], "_")[[1]]
 
   ## gsub changes string A to string B 
-  sdata$Batch[i] = gsub("batch", "", tmp[2])
+  nc = nchar(tmp[1])
+  sdata$Batch[i] = substr(tmp[1], 2, nc)
   
   ## in-batch injection sequence is easy
-  sdata$OrderInBatch[i] = tmp[3]
+  sdata$OrderInBatch[i] = tmp[2]
 }
 
 ## Change the character strings to numeric values 
@@ -87,7 +97,7 @@ usub = unique(sdata$`Subject ID`)
 sdata$SIDnum = match(sdata$`Subject ID`, usub) ## numerical ID of subjects
 ```
 
-Now we are going to check how many repeated measures each individual subject has. Subjects with two or fewer observations will be removed since we have to compute within-individual coefficients of variation later on, which requires at least three observations. We also remove subjects with no plaque volume data (`pdata`).
+Next, we are going to check how many repeated measures each individual subject has. Subjects with two or fewer observations will be removed since we have to compute within-individual coefficients of variation later on, which requires at least three observations. We also remove subjects with no plaque volume data (in `pdata` object).
 
 ```{r}
 counts = table(sdata$`Subject ID`)
@@ -101,20 +111,21 @@ remove.id = patients[counts < 3]
 remove.index = sdata$`Subject ID` %in% remove.id
 sdata = sdata[-remove.index, ]
 
-## We now remove subjects without plaque volume data (outcomes)
+## We now remove subjects without plaque volume data (in `sdata` object)
+## using R's "in-the-array" operator
 all(pdata$`PATIENT CODE` %in% sdata$`Subject ID`)  ## evaluates to TRUE
 mid = sdata$`Subject ID` %in% pdata$`PATIENT CODE`
 sdata = sdata[mid, ]
 ```
 
-Finally order samples in the the concentration table using the sample ID as the match key.
+Finally, order samples in the the concentration table using the sample ID as the match key.
 
 ```{r}
-all(sdata$`Sample ID` %in% qdata$SampleID) ## should evaluate to TRUE
-mid = match(sdata$`Sample ID`, qdata$SampleID)
+all(sdata$`Sample ID` %in% qdata$`Sample ID`) ## should evaluate to TRUE
+mid = match(sdata$`Sample ID`, qdata$`Sample ID`)
 qdata = qdata[mid, ]
-rownames(qdata) = qdata$SampleID
-qdata = qdata[,-1]
+rownames(qdata) = qdata$`Sample ID`
+qdata = qdata[,-c(1:2)]
 ```
 
 Now we have all three data sets aligned in terms of subjects.
@@ -122,7 +133,7 @@ Now we have all three data sets aligned in terms of subjects.
 Up to this point we only cleaned up the sample and subject information. Our molecular data are lipids -- there can be meta data associated with those variables, too. For example, we can export a table of lipid names in the concentration data, and edit it outside R, and read the table back in.
 
 ```{r}
-lipids = colnames(qdata)[-1] ## First column => sample ID
+lipids = colnames(qdata)
 
 ## Create a data frame with extra columns
 ltab = data.frame(Lipids=lipids, Class=NA, SubClass=NA,
@@ -132,17 +143,20 @@ ltab = data.frame(Lipids=lipids, Class=NA, SubClass=NA,
 write.table(ltab, "data/Lipid_table.txt", sep="\t", 
             quote=F, row.names=F, na="")
 
-## We now go and change the file name, add class and subclass info in Excel, 
-## and read it back in.
+```
+
+We now have an opportunity to add more meta information such as the lipid class and subclass info manually, say, in Excel, and read it back in. You can perform the same operation within R as well.
+
+```{r}
 ltab = read.delim("data/Lipid_table_editted.txt", 
                   header=T, as.is=T, check.names=F)
 ```
 
-This information will be used repeatedly when we plot the data below.
+This information will be used frequently when we plot the data below.
 
-## Section 2. Checking drift and batch effects
+## Section 2. Reassuring drift and batch effects
 
-We will now make copies of the data tables and rearrange the concentration data in order of the sample preparation batch and injection sequence. When we plot the concentration values in this order, we can evaluate batch effects and signal drifts in each analyte.
+We will now make copies of the data tables and rearrange the concentration data following the injection sequence (with sample preparation batches indicated). When we plot the concentration values this way, we can evaluate batch effects and signal drifts in each analyte. Part 1 ensures these artifacts are removed the data. Sometimes we work with data sets produced by others (e.g. facilities). In such an arrangement, it is important to request the analysis sequence and sample preparation batch information, so that you can do the following.
 
 ```{r}
 ord = order(sdata$`Analysis Sequence`)
@@ -159,7 +173,7 @@ nticks = length(ticks)
 
 ## Graphics: plot each analyte in one panel in injection sequence
 ## Color the dots by the extraction batches
-pdf("Output/analysis_sequence_plots.pdf", height=8, width=10, useDingbats=F)
+pdf("output/analysis_sequence_plots.pdf", height=8, width=10, useDingbats=F)
 
 par(mfrow=c(3,1))
 for(k in 1:ncol(qdata2)) {
@@ -170,91 +184,38 @@ for(k in 1:ncol(qdata2)) {
 
 dev.off()
 
-## Same plot with the dots colored by subject ID
-pdf("Output/analysis_sequence_plots_by_subject.pdf", height=8, width=10, useDingbats=F)
-
-par(mfrow=c(3,1))
-for(k in 1:ncol(qdata2)) {
-  plot(qdata2[,k], pch=19, cex=.5, col=sdata2$SIDnum, 
-       xlab="Analysis Sequence", ylab="Concentrations", main=colnames(qdata2)[k])
-  for(j in 1:nticks) abline(v=ticks[j]+0.5, lty=2, col=2)
-}
-
-dev.off()
-
 ```
 
-Now that we confirmed that we did not have notable shifts between batches and signal drift occurring in most of the analytes, we can move onto the analysis. However, one more cautionary check may be useful: missing data.
-
-```{r}
-any(qdata <= 0)
-## returns NA! 
-
-sum(is.na(qdata))
-## Not many, but there are missing data, which will be
-## causing troubles when we perform downstream numerical analyses. 
-
-## Let's hunt down where the missing values are
-col.ct = apply(qdata, 2, function(x) sum(is.na(x)))
-col.ct[col.ct > 0]
-row.ct = apply(qdata, 1, function(x) sum(is.na(x)))
-row.ct[row.ct > 0]
-## Turns out the batch5_65 sample had S1P values missing!
-```
-
-Since we don't have too many missing data and we don't want to lose subjects, we decide to work with KNN imputation.
-
-```{r}
-## Execute these lines after uncommenting if the package is not installed.
-#if (!require("BiocManager", quietly = TRUE))
-#  install.packages("BiocManager")
-#BiocManager::install("impute")
-library(impute)
-
-qdata.tmp = log2(qdata)  ## molecular concentrations data are usually skewed
-qdata.new = impute.knn(as.matrix(qdata.tmp))$data
-```
-
-Important note: In the original implementation, the algorithm finds K nearest "genes" positioned across the rows of the matrix. In lipidomics, we don't have that many "genes" (lipids), thus it is actually better to find nearest K "samples" with similar patterns to estimate the missing S1P measurements. So we put samples in the rows, lipids in the columns (contrary to the instruction in impute.knn function).
-
-```{r}
-### Check the imputed values for S1P species
-gg = grep("S1P", colnames(qdata.new))
-sid = ifelse(rownames(qdata.new) == "LT_batch5_65", 2, 1)  ## red dot
-cid = ifelse(rownames(qdata.new) == "LT_batch5_65", 2, 0.2)
-pdf("Output/S1P_missing_data_confirmation.pdf",
-    height=8, width=12, useDingbats=F)
-par(mfrow=c(3,2))
-for(k in gg) {
-  plot(qdata.new[,k], pch=19, cex=cid, col=sid, 
-       xlab="Analysis Sequence", ylab="Concentrations", main=colnames(qdata2)[k])
-}
-dev.off()
-```
-
-## Section 3. Data visualization in heatmaps and projection plots
+## Section 3. Data visualization in heatmap and projection plot
 
 For downstream analysis, let's first merge the plaque data (`pdata`) into the sample information table (`sdata`).
 
 ```{r}
 mm = match(sdata$`Subject ID`, pdata$`PATIENT CODE`)
-sdata = data.frame(sdata, pdata[mm, ],  ## you can use merge, dplyr::join family functions
+sdata = data.frame(sdata, pdata[mm, ],  ## you can use merge, dplyr::join family functions too, I'm just old-fashioned
                     stringsAsFactors=F, check.names=F)
-q.med = apply(qdata.new, 2, median)
-qdata.norm = sweep(qdata.new, 2, q.med) ## median normalized data, different from qdata.new (log2 transformed, imputed)
 ```
 
-Before moving onto downstream analyses, let's re-order the individuals. We use the total lipid-rich plaque volume as ordering variable as it is one of the main outcomes of interest. In case there are many zero volumes (undetected plaques), we also throw in subject number as additional ordering variable.
+To visualize the entire data in a heatmap, we need to standardize the concentration levels across the lipid species, so that we can represent `high` and `low` levels with the same color scale. Here I chose to log base 2 transform and center the values by median in each lipid species.
+
+```{r}
+rownames(qdata) = paste(sdata$`Subject ID`, sdata$`Sampling Time Point`, sep="_")
+qdata = log2(qdata) ## for normality
+q.med = apply(qdata, 2, median)
+qdata.norm = sweep(qdata, 2, q.med) ## median normalized data (imputed)
+```
+
+Before moving onto downstream analyses, let us re-order the individuals. We use the total lipid-rich plaque volume as the ordering variable as it is one of the main outcomes of interest in this study. In case there are many zero volumes (undetected plaques), we also throw in subject number as an additional ordering variable to ensure the repeated measures from the same individual are grouped together after shuffling.
 
 ```{r}
 ord = order(sdata$`total lipid plaq vol index`, sdata$SIDnum)
 sdata = sdata[ord, ]
 qdata = qdata[ord, ]
-qdata.new = qdata.new[ord, ]
 qdata.norm = qdata.norm[ord, ]
+plot(sdata$`total lipid plaq vol index`)
 ```
 
-Now let's draw the heatmap with plaque volumes as row-wise meta information.
+Now let's draw the heatmap with the plaque volumes displayed as the meta information (row-wise).
 
 ```{r}
 #if (!require("BiocManager", quietly = TRUE))
@@ -280,7 +241,7 @@ col_ha = HeatmapAnnotation(LipidClass=ltab$Class,
                            which="col", border=TRUE, show_legend=TRUE)
 
 ## Draw heatmap and save it to a pdf file
-pdf("Output/heatmap_lipids.pdf", height=30, width=30)
+pdf("output/heatmap_lipids.pdf", height=30, width=30)
 Heatmap(as.matrix(qdata.norm), name = "Normalized Levels", 
         cluster_rows = FALSE,
         cluster_columns = TRUE,
@@ -301,7 +262,7 @@ dev.off()
 Principal Component Analysis (PCA): We perform PCA and draw the projection plot on the new axes defined by PC1 and PC2. One we figure out that step, we can then track each individual's time course trajectory over this map.
 
 ```{r}
-tmp = qdata.norm
+tmp = qdata
 tmp.pca = prcomp(tmp, scale.=TRUE)
 vv = tmp.pca$sdev^2
 vv = round(vv / sum(vv) * 100, 2)
@@ -315,7 +276,7 @@ library(scales)
 # The output will be a multi-page deck of the same PCA plots,
 # with each plot showing one subject's trajectory over the PC coordinates.
 
-pdf("Output/PCAplot.pdf", height=12, width=11, useDingbats = FALSE)
+pdf("output/PCAplot.pdf", height=12, width=11, useDingbats = FALSE)
 
   par(mfrow=c(3,3))
   THRES = max(abs(tmp.pca$x[,1]))
@@ -327,7 +288,9 @@ pdf("Output/PCAplot.pdf", height=12, width=11, useDingbats = FALSE)
   plot(tmp.pca$x[,1], tmp.pca$x[,2], 
        col=dot.col, pch=19, 
        cex = dot.size,  ### dot size proportional to total plaque volume
-       xlab="PC1 (23.4%)", ylab="PC2 (21.3%)", main="SPERFECT", 
+       xlab=paste("PC1 (", round(vv[1],1), "%)", sep=""), 
+       ylab=paste("PC2 (", round(vv[2],1), "%)", sep=""),
+       main="SPERFECT", 
        xlim=c(-THRES,THRES), ylim=c(-THRES,THRES))
   abline(v=0, lty=2)
   abline(h=0, lty=2)
@@ -344,9 +307,11 @@ pdf("Output/PCAplot.pdf", height=12, width=11, useDingbats = FALSE)
   
     ## Background plot
     plot(tmp.pca$x[,1], tmp.pca$x[,2], 
-         col=dot.col, cex=.5,
-         xlab="PC1 (23.4%)", ylab="PC2 (21.3%)", main=subjects[i], 
-         xlim=c(-THRES,THRES), ylim=c(-THRES,THRES))
+        col=dot.col, cex=.5,
+        xlab=paste("PC1 (", round(vv[1],1), "%)", sep=""), 
+        ylab=paste("PC2 (", round(vv[2],1), "%)", sep=""),
+        main=subjects[i], 
+        xlim=c(-THRES,THRES), ylim=c(-THRES,THRES))
     abline(v=0, lty=2)
     abline(h=0, lty=2)
   
@@ -354,7 +319,7 @@ pdf("Output/PCAplot.pdf", height=12, width=11, useDingbats = FALSE)
     coord = which(sdata$`Subject ID` == subjects[i])
     nn = length(coord)
   
-    ## Draw arrows
+    ## Draw arrows by connecting adjacent time points
     for(k in 2:nn) {
       x0 = proj[coord[k-1],1]
       y0 = proj[coord[k-1],2]
@@ -375,20 +340,22 @@ pdf("Output/PCAplot.pdf", height=12, width=11, useDingbats = FALSE)
 dev.off()
 ```
 
-## Section 4. Clustering of subjects by plaque volume (outcome)
+![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABH0lEQVR4XmNgGAVDCqxdvzVhzcbNm6mBK6uqVqObDwf///9nXLt+SzG6JlJxTW3tVpBZ6OajgP3797Os3bClFV0zsbiuoXEfyAx0c7GCRTt3cq9Zv7UX3RBCuL6x8TBIL7p5eMGqVbv512zYMgvdMFy4san1FEgPujlEgbVrd0gCg3EJuqHouLm59TxILbp+ksCqjdvV12zcshLdcBhuamm7BFKDro8ssGbjRr01G7aux7Ckte0qSA5dPUVg9frNDkDLNsGDq7X9GkgMXR1VwNoNm0MgPmm/DmKjy49wwLjIbzM1MLq5GIBxgc9mhm2eFGGwGYQA42wvDI2kYrAZhADjdEyNpGKwGYQA42Q3DI2kYrAZBEGfy2aq4FEw5AAASl8F3R9fQqAAAAAASUVORK5CYII= "Run All Chunks Above")
+
+## Section 4. Clustering of subjects by plaque volume (outcome data only)
 
 ```{r}
 ## Plaque values are all in different absolute levels
 ## For heatmap visualization, it is necessary to normalize them
 ## so that they are in the same scale. 
-pdata2 = pdata[,-1]
+pdata2 = pdata[,-1] 
 rownames(pdata2) = pdata[,1]
 for(k in 1:ncol(pdata2)) {
   pdata2[,k] = pdata2[,k] / mean(pdata2[,k])
 }
 
 ## Plot the data
-pdf("Output/heatmap_subjects_outcome.pdf", height=10, width=5)
+pdf("output/heatmap_subjects_outcome.pdf", height=10, width=5)
 Heatmap(as.matrix(pdata2), name = "Normalized Volumes", 
         cluster_rows = TRUE,
         cluster_columns = TRUE,
@@ -431,11 +398,11 @@ sdata$Cluster = factor(sdata$Cluster, levels=c("Low","Lipid","Calcified"))
 
 ## Section 5. Dissecting the within-individual and between-individual variabilities
 
-In this section, we explore the overall variance of each lipid species into the within-individual variability (coefficient-of-variation w) and the between-individual variability (coefficient-of-variation g). Theoretically speaking, the former also includes much of the analytical variability, but we will ignore this in this workshop. These measures of variabilities are population-level characteristics of each individual analyte -- we are trying to estimate them from this data.
+In this section, we dissect the overall variance of each lipid species into the within-individual variability (coefficient-of-variation w) and the between-individual variability (coefficient-of-variation g). Theoretically speaking, the former also absorbs much of the analytical variability (e.g. %CoV from technical QCs), but we will ignore this in this workshop. These measures are population-level characteristics of analytes -- we are trying to estimate them from this data set. Usually these values are estimated from a large cohort (N\>1,000) for clinical-grade assays.
 
-Why do we do this? First of all, it is quite informative -- how the variabilities vary across lipid classes in circulating blood. Second, conventionally *good* biomarkers are the ones with large inter-individual variability and small intra-individual variability. Hence this characterization can help us prioritize the lipid classes that will likely provide useful candidate markers.
+Why do we do this? First of all, it is informative -- how the variability varies across lipid classes in the circulating blood. Second, conventionally *good* biomarkers are the ones with large inter-individual variability and small intra-individual variability. Hence this characterization can help us prioritize the lipid classes in biomarker studies.
 
-First, let's write a function to compute the coefficient of variation (CoV%) from log-transformed data (mention Canchola et al paper) - the formula is different!
+First, we write a `function` to compute the coefficient of variation (CoV%) from log-transformed data (mention Canchola et al paper) - the formula is not the ratio of stdev over mean!
 
 ```{r}
 cov.logged = function(x, logbase=2) {
@@ -446,16 +413,16 @@ cov.logged = function(x, logbase=2) {
 }
 ```
 
-Using this function, we approximate the intra-individual variability (CoV_w) as follows.
+Using this function, we approximate the intra-individual variability (CoV_w) as follows:
 
 ```{r}
 ## compute CoV in each individual
 subjects = unique(sdata$`Subject ID`)
 nsubjects = length(subjects)
-lipids = colnames(qdata.new)
+lipids = colnames(qdata)
 nlipids = length(lipids)
 
-### placeholder to keep CV% values
+### placeholders to keep CV% values
 COVtab = matrix(NA, nlipids, nsubjects) 
 rownames(COVtab) = lipids
 colnames(COVtab) = subjects
@@ -463,7 +430,7 @@ colnames(COVtab) = subjects
 for(i in 1:nlipids) {
   for(j in 1:nsubjects) {
     rid = which(sdata$`Subject ID` == subjects[j])
-    COVtab[i,j] = cov.logged(qdata.new[rid,i])
+    COVtab[i,j] = cov.logged(qdata[rid,i])
   }
 }
 
@@ -484,10 +451,10 @@ row_ha = HeatmapAnnotation(Class=ltab$Class,
 col_ha = HeatmapAnnotation(Group=groups,
                            which="col", border=TRUE, show_legend=TRUE)
 
-pdf("Output/COV_w.pdf", height=25, width=15)
+pdf("output/COV_w.pdf", height=25, width=15)
 Heatmap(as.matrix(COVtab), name = "CoV", 
         cluster_rows = TRUE,
-        cluster_columns = FALSE,
+        cluster_columns = TRUE,
         row_names_gp = gpar(fontsize = 6),
         column_names_gp = gpar(fontsize = 8),
         column_title = "Plaque Group",
@@ -503,18 +470,16 @@ Heatmap(as.matrix(COVtab), name = "CoV",
 dev.off()
 ```
 
-You can try to match the lipids on top with the CoV_w in Figure 3 of Tan et al.
-
-Now, how should we estimate inter-individual CoV? We can approximate this by calculating CoV_g at the averaged (log2) data:
+Now, how should we estimate the inter-individual variability (CoV_g)? As a short-cut method, we can approximate this by calculating CoV_g at the averaged (log2) data:
 
 ```{r}
 mm = match(subjects, sdata$`Subject ID`)
-qdata.avg = qdata.new[mm, ]
+qdata.avg = qdata[mm, ]
 
 for(i in 1:nsubjects) {
   rid = which(sdata$`Subject ID` == subjects[i])
   ## averaging over replicates
-  qdata.avg[i, ] = apply(qdata.new[rid, ], 2, mean)  
+  qdata.avg[i, ] = apply(qdata[rid, ], 2, mean)  
 }
 
 COVg_vec = rep(NA, nlipids)
@@ -526,7 +491,7 @@ for(i in 1:nlipids) {
 Now we average the within-individual CoV (CoV_w) to compare the two CoV's:
 
 ```{r}
-COVw_vec = apply(COVtab, 1, mean)
+COVw_vec = apply(COVtab, 1, median)
 ```
 
 Visualizing this:
@@ -550,9 +515,9 @@ ucolor = cl[match(uclass,ltab$Class)]
 legend("bottomright", legend=uclass, col=ucolor, pch=19, ncol=2)
 ```
 
-Note: this approximation-based analysis has an issue. It can either over-estimate the CoV_g or under-estimate CoV_w - either or both. The two measures of variabilities have to be simultaneously deconvoluted, not separately. Purely analytical variability (CoV_a) was also ignored, but this can only be estimated using repeated injections of a QC sample.
+Note: this approximation-based analysis is not a perfect one. It can either over-estimate the CoV_g or under-estimate CoV_w - either or both. The two measures of variability have to be simultaneously deconvoluted from the data, not separately. Recall that purely analytical variability (CoV_a) was also ignored, but this can only be estimated using repeated injections of a QC sample.
 
-Here is the formal way to obtain the proper variance parameters from the data (usually done from a population-scale data set). We first get the variance / standard deviation values pertaining to the inter- and intra-individual variabilities using linear mixed effects models:
+Here is a more model-based method to obtain the proper variance parameters from the data (usually done for a population-scale data set). We first get the variance / standard deviation values pertaining to the inter- and intra-individual variabilities using linear mixed effects models:
 
 ```{r}
 library(nlme)
@@ -564,7 +529,7 @@ names(sigma_g) = names(sigma_w) = ltab$Lipids
 ## Each lipid
 for(j in 1:nlipids) {
   if(j %% 20 == 0) print(j) ## print progress every 20th lipid
-  y = qdata.new[,j]
+  y = qdata[,j]
   ## Fit LME model with simple random effects
   ## representing individual specific lipid levels
   ## (random intercept)
@@ -605,20 +570,20 @@ legend("topleft", legend=uclass, col=ucolor, pch=19, ncol=6)
 text(COVw_vec, COVg_vec, labels = ltab$Lipids, cex=.4, col=cl)
 ```
 
-This recovers the main Figure 3 in Tan et al. (except for a few species). Discussion point: which analytes would be the best clinical markers if (hypothetically) all of them were candidates?
+This recovers the main Figure 3 in Tan et al. (except for a few species). I also remark that the CoV_w values are still inclusive of the analytical variability. For this reason, most of the `true` values will shift to the left side of the canvas had we accounted for the analytical variability. A discussion point: which analytes would be the best clinical markers if (hypothetically) all of them were candidates?
 
 ## Section 6. Visit-to-visit variability analysis
 
-Create a new data set containing within-individual standard deviation of log2 concentrations for each lipid species. These values will serve as the "visit-to-visit variability" measures.
+Create a new data set containing the within-individual standard deviation of log2 concentrations for each lipid species. These values will serve as the proxy for "visit-to-visit variability".
 
 ```{r}
 mm = match(subjects, sdata$`Subject ID`)
-qdata.sd = qdata.new[mm, ]
+qdata.sd = qdata[mm, ]
 
 ## For each subject, get stdev
 for(i in 1:nsubjects) {
   rid = which(sdata$`Subject ID` == subjects[i])
-  qdata.sd[i, ] = apply(qdata.new[rid, ], 2, sd)  
+  qdata.sd[i, ] = apply(qdata[rid, ], 2, sd)  
 }
 rownames(qdata.sd) = subjects
 
@@ -714,7 +679,7 @@ row_ha = HeatmapAnnotation(LipidClass=ltab$Class[sel],
                            which="row", border=TRUE, show_legend=TRUE)
 set.seed(12345679)
 
-pdf("Output/SDassociation_heatmap_LipidRich.pdf", height=6, width=9)
+pdf("output/SDassociation_heatmap_LipidRich.pdf", height=6, width=9)
 X = as.matrix(qdata.sd.norm)[,sel]
 Heatmap(t(X), name = "CoV", 
         cluster_rows = TRUE,
