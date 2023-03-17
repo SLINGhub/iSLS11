@@ -6,7 +6,7 @@
 
 This repository contains datasets and R codes used for 11th International Singapore Lipid Symposium [iSLS11](https://sling.sg/news-events/isls/) workshop held on March 19, 2023, 2:00 - 6:00 PM (SGT).
 
-We will be using the data published in [*Tan et al., Variability of the Plasma Lipidome and Subclinical Coronary Atherosclerosis, Atheroscler Thromb Vasc Biol, 2021*, DOI: 10.1161/atvbaha.121.316847](https://doi.org/10.1161/atvbaha.121.31684) as an example dataset for this workshop.
+We will be using the data published in *Tan et al., Variability of the Plasma Lipidome and Subclinical Coronary Atherosclerosis, Atheroscler Thromb Vasc Biol, 2021* [DOI: 10.1161/atvbaha.121.316847](https://doi.org/10.1161/atvbaha.121.31684) as an example dataset for this workshop.
 
 **In the first part**, we will inspect and process a targeted MS-based plasma lipidomics raw dataset, starting from peak areas. In particular, we will be looking at import of analytical data and metadata, internal standard-based normalization and quantification, diverse analytical and data quality control assessments and plots, batch/drift-correction, lipid nomenclature, QC-based feature filtering and reporting. We will go through the processing workflow step-by-step using R scripts/notebooks with relevant R packages.
 
@@ -43,15 +43,17 @@ Do not hesitate to contact us if you have any questions.
 
 ## Authors
 
--   Bo Burla - [Singapore Lipidomics Incubator \@ National University of Singapore](https://sling.sg)
+-   Bo Burla - [Singapore Lipidomics Incubator](https://sling.sg) \@ NUS
 
--   Hyungwon Choi - [Computational & Statistical Systems Biology Laboratory \@ National University of Singapore](https://www.cssblab.org)
+-   Hyungwon Choi - [Computational & Statistical Systems Biology Laboratory](https://www.cssblab.org) \@ NUS
 
 ## Acknowledgments
 
--   Federico Torta
 -   Members of SLING
+
 -   Participants of the SLING R-sessions
+
+-   Authors of the dataset used in this workshop: Tan et al., Atheroscler Thromb Vasc Biol, 2021 [DOI: 10.1161/atvbaha.121.316847](https://doi.org/10.1161/atvbaha.121.31684)
 
 ## License
 
