@@ -17,17 +17,17 @@ rm(list=ls()) ### clear the deck
 
 ## (a) qdata refers to quantitative (concentration) data 
 ##     - repeated measures (sample level)
-qdata = read.csv("../Part_1/output/qc_filtered_results.csv", 
+qdata = read.csv(here::here("Part_1/output/qc_filtered_results.csv"), 
                    header=TRUE, as.is=TRUE, check.names=FALSE)
 
 ## pdata refers to plaque volume data -- at the subject level 
 ## (one CTCA per subject)
-pdata = read.delim("data/SPERFECT_plaque_data.txt", 
+pdata = read.delim(here::here("Part_2/data/SPERFECT_plaque_data.txt"), 
                    header=T, as.is=T, check.names=F)
 
 ## sdata refers to sample information table 
 ## (subjects appearing multiple times)
-sdata = read.delim("data/SPERFECT_MS_injection_sequence.txt", 
+sdata = read.delim(here::here("Part_2/data/SPERFECT_MS_injection_sequence.txt"), 
                    header=T, as.is=T, check.names=F) 
 
 colnames(qdata)[1] = "Sample ID"
@@ -139,7 +139,7 @@ ltab = data.frame(Lipids=lipids, Class=NA, SubClass=NA,
                   stringsAsFactors=F, check.names=F)
 
 ## Write it to a file
-write.table(ltab, "data/Lipid_table.txt", sep="\t", 
+write.table(ltab, here::here("Part_2/data/Lipid_table.txt"), sep="\t", 
             quote=F, row.names=F, na="")
 
 ```
@@ -147,7 +147,7 @@ write.table(ltab, "data/Lipid_table.txt", sep="\t",
 We now have an opportunity to add more meta information such as the lipid class and subclass info manually, say, in Excel, and read it back in. You can perform the same operation within R as well.
 
 ```{r}
-ltab = read.delim("data/Lipid_table_editted.txt", 
+ltab = read.delim(here::here("Part_2/data/Lipid_table_editted.txt"), 
                   header=T, as.is=T, check.names=F)
 ```
 

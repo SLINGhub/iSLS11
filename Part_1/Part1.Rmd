@@ -28,7 +28,7 @@ library(tidyverse)
 library(here)
 library(broom)
 library(ggpmisc)
-here::i_am("Part_1/Part1.qmd")
+here::i_am("Part_1/Part1.rmd")
 here::here()
 ```
 
