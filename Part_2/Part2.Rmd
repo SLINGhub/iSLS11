@@ -17,7 +17,7 @@ rm(list=ls()) ### clear the deck
 
 ## (a) qdata refers to quantitative (concentration) data 
 ##     - repeated measures (sample level)
-qdata = read.csv("output/qc_filtered_results.csv", 
+qdata = read.csv("../Part1/output/qc_filtered_results.csv", 
                    header=TRUE, as.is=TRUE, check.names=FALSE)
 
 ## pdata refers to plaque volume data -- at the subject level 
@@ -80,12 +80,11 @@ for(i in 1:nrow(sdata)) {
   ## strsplit function always returns a "list" -- double bracket at the end
   tmp = strsplit(sdata$`Sample ID`[i], "_")[[1]]
 
-  ## gsub changes string A to string B 
-  nc = nchar(tmp[1])
-  sdata$Batch[i] = substr(tmp[1], 2, nc)
+  ## Get the batch number and order
+  sdata$Batch[i] = gsub("batch", "", tmp[2])
   
   ## in-batch injection sequence is easy
-  sdata$OrderInBatch[i] = tmp[2]
+  sdata$OrderInBatch[i] = tmp[3]
 }
 
 ## Change the character strings to numeric values 
