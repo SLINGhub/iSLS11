@@ -81,7 +81,7 @@ for(i in 1:nrow(sdata)) {
   tmp = strsplit(sdata$`Sample ID`[i], "_")[[1]]
 
   ## Get the batch number and order
-  sdata$Batch[i] = gsub("batch", "", tmp2)
+  sdata$Batch[i] = gsub("batch", "", tmp[2])
   
   ## in-batch injection sequence is easy
   sdata$OrderInBatch[i] = tmp[3]
