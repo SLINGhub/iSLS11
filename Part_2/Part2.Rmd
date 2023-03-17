@@ -17,7 +17,7 @@ rm(list=ls()) ### clear the deck
 
 ## (a) qdata refers to quantitative (concentration) data 
 ##     - repeated measures (sample level)
-qdata = read.csv("../Part1/output/qc_filtered_results.csv", 
+qdata = read.csv("../Part_1/output/qc_filtered_results.csv", 
                    header=TRUE, as.is=TRUE, check.names=FALSE)
 
 ## pdata refers to plaque volume data -- at the subject level 
