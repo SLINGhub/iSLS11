@@ -31,7 +31,7 @@ We will make use of several external R packages in our scripts. Please install t
     # Bioconductor packages
 
     if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager") 
-    BiocManager::install(c("impute", "ComplexHeatmap"))
+    BiocManager::install(c("impute", "ComplexHeatmap", "rgoslin"))
 
 ### Download the R scripts
 
