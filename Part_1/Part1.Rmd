@@ -22,14 +22,13 @@ In this first part, we will inspect and process the targeted mass spectrometry (
 We first load packages used in this part of the workshop. We will employ several packages from the [`tidyverse`](https://www.tidyverse.org) which can be loaded using `library(tidyverse)`. The [`here`](https://here.r-lib.org) package provides the function `here()` that returns the root of the project. [`broom`](https://broom.tidymodels.org) provides functions to convert outputs of standard R functions such as `t.test` and `lm` into [tidy tables](https://r4ds.had.co.nz/tidy-data.html) (dataframes/tibbles). [`ggpmisc`](https://github.com/aphalo/ggpmisc) extends `ggplot2` with functions useful for plotting models and annotations of axes.
 
 ```{r setup}
-knitr::opts_chunk$set(collapse = TRUE, echo = TRUE, fig.height=4, fig.width=10)
+knitr::opts_chunk$set(collapse = TRUE, echo = TRUE, message = TRUE, warning = FALSE, fig.height=4, fig.width=10, comment = "#>", fig.show = "hold")
 
 library(tidyverse)
 library(here)
 library(broom)
 library(ggpmisc)
 here::i_am("Part_1/Part1.rmd")
-here::here()
 ```
 
 ## Importing raw data
@@ -94,7 +93,7 @@ qc_shapes <- c(SAMPLE = 1, BQC = 21, TQC = 21,
                PBLK = 21, SBLK = 23, RQC = 6)
 
 # Plot
- p <- ggplot(d_istd, aes(x=RUN_ID, y=AREA)) + 
+p <- ggplot(d_istd, aes(x=RUN_ID, y=AREA)) + 
         geom_point(aes(colour = QC_TYPE, fill = QC_TYPE, shape  = QC_TYPE),
                    size = 1, alpha =0.7, stroke = 0.3) +
         facet_wrap(vars(LIPID), ncol = 5, nrow = 4, scales="free_y") +
@@ -104,9 +103,9 @@ qc_shapes <- c(SAMPLE = 1, BQC = 21, TQC = 21,
         scale_x_continuous(breaks = seq(0, max(d_istd$RUN_ID), by = 100 )) + 
         scale_y_continuous(limits = c(0, NA)) + 
         theme_bw(base_size = 8) 
-plot(p)
 ggsave(plot = p, filename = here("Part_1/output/runscatter_ISTD.pdf"),
        width = 280, height = 180, units = "mm")
+plot(p)
 ```
 
 | We observe that the intensity of some ISTDs shows a drift during the analysis. The two ceramide ISTDs show a very different pattern, even they are from the same class.
@@ -142,9 +141,9 @@ p <- ggplot(d_rqc |> filter(str_detect(LIPID, "ISTD")),
         scale_y_continuous(limits = c(0, NA)) + 
         labs(x = "Rel. Sample Amount (%)") +
         theme_bw(base_size = 8) 
-plot(p)
 ggsave(plot = p, filename = here("Part_1/output/reponse_curves.pdf"),
        width = 280, height = 120, units = "mm")
+plot(p)
 ```
 
 | We see that the response is fairly linear for most species, whereby the TG ISTD shows some saturation. The two curves mostly overlap, suggesting no major changes in sensitivity and linearity over this time, except Cer d18:1/12:0 that showed a considerable drift (see Figure 1).
@@ -152,17 +151,13 @@ ggsave(plot = p, filename = here("Part_1/output/reponse_curves.pdf"),
 ## Check lipid identifications
 
 ```{r identcheck}
-
-d_lipids <- readr::read_csv(file = here("Part_1/data/SPERFECT_SLINGpanel_MRMkit_peakQC.csv"))
+d_lipids <- readr::read_csv(file = here("Part_1/data/SPERFECT_SLINGpanel_MRMkit_peakQC.csv"), show_col_types = FALSE)
 
 d_lipids <- d_lipids |>
   mutate(LIPID_tmp = str_replace(LIPID, " O\\-", "-O "),
          LIPID_tmp = str_replace(LIPID, " P\\-", "-P "), .after = LIPID) |> 
   separate(LIPID_tmp, into = c("CLASS", "CHAINS", "OTHER"), 
            sep = " ", remove = TRUE, extra = "drop")
-
-
-
 ```
 
 ## Normalization and quantification
@@ -277,7 +272,6 @@ d_qc <- d_qc |>
     r.squared_1 > 0.8 &
     QUANTIFIER &
     !str_detect(LIPID, "ISTD"))
-
 ```
 
 ## Inspect QC results
