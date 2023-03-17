@@ -12,7 +12,7 @@ We will be using the data published in [*Tan et al., Variability of the Plasma L
 
 **In the second part**, we will inspect the overall data trends from both sample meta data and lipidomics data via visualization and dimension reduction. The data set comes from a lipidomics study of individuals at high risk of cardiovascular diseases, where the participants were invited monthly for blood sampling up to five times and their coronary artery plaque burden was assessed using computed tomography coronary angiography (CTCA) at the end of the follow-up. Using custom R code, we practice synchronizing the quantitative lipidomic data and their plaque burden data (outcome) and cluster subjects by different plaque types. Using the repeated measure data and linear mixed effects model, we compute population-level properties of lipid species such as within-individual and between-individual variability (coefficients of variation). Finally, we search for lipid species whose visit-to-visit variability is associated with different plaque types.
 
-## Preparing for the workshop 
+## Preparing for the workshop
 
 ### R and RStudio
 
@@ -30,7 +30,8 @@ We will make use of several external R packages in our scripts. Please install t
 
     # Bioconductor packages
 
-    if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager") BiocManager::install(c("impute", "ComplexHeatmap"))
+    if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager") 
+    BiocManager::install(c("impute", "ComplexHeatmap"))
 
 ### Download the R scripts
 
@@ -48,7 +49,9 @@ Do not hesitate to contact us if you have any questions.
 
 ## Acknowledgments
 
--   TBA
+-   Federico Torta
+-   Members of SLING
+-   Participants of the SLING R-sessions
 
 ## License
 
