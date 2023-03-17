@@ -80,12 +80,11 @@ for(i in 1:nrow(sdata)) {
   ## strsplit function always returns a "list" -- double bracket at the end
   tmp = strsplit(sdata$`Sample ID`[i], "_")[[1]]
 
-  ## gsub changes string A to string B 
-  nc = nchar(tmp[1])
-  sdata$Batch[i] = substr(tmp[1], 2, nc)
+  ## Get the batch number and order
+  sdata$Batch[i] = gsub("batch", "", tmp2)
   
   ## in-batch injection sequence is easy
-  sdata$OrderInBatch[i] = tmp[2]
+  sdata$OrderInBatch[i] = tmp[3]
 }
 
 ## Change the character strings to numeric values 
