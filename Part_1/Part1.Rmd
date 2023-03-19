@@ -255,7 +255,8 @@ runscatter <- function(data, var){
   d_plots <- data %>%
     filter(!str_detect(QC_TYPE, "BLK|RQC"), !str_detect(LIPID, "ISTD")) |> 
     left_join(d_pages, by = join_by(LIPID)) %>%
-    nest(.by = page_no) %>%
+    group_by(page_no) |> 
+    nest() |> 
     mutate(plt = map(data, ~ plot_page(., rows_page, columns_page)))
   
   # Save pages to a PDF. 
@@ -292,15 +293,16 @@ get_loess <- function(d) {
 
 d_processed_corr$CONC_LOG <- log2(d_processed_corr$CONC)
 
- d_processed_corr <- d_processed_corr %>%
-    nest(.by = LIPID) %>%
-    mutate(Y_PREDICTED = purrr::map(data, \(x) get_loess(x))) %>%
-    unnest(cols = c(data, Y_PREDICTED))
+d_processed_corr <- d_processed_corr %>%
+  group_by(LIPID) |>  
+  nest() |>
+  mutate(Y_PREDICTED = purrr::map(data, \(x) get_loess(x))) %>%
+  unnest(cols = c(data, Y_PREDICTED))
 
 d_processed_corr <- d_processed_corr %>%
-    group_by(LIPID) %>%
-    mutate(Y_PREDICTED = Y_PREDICTED - median(Y_PREDICTED, na.rm = TRUE),
-           CONC_ADJ = 2^(CONC_LOG - Y_PREDICTED)) |> ungroup()
+  group_by(LIPID) %>%
+  mutate(Y_PREDICTED = Y_PREDICTED - median(Y_PREDICTED, na.rm = TRUE),
+         CONC_ADJ = 2^(CONC_LOG - Y_PREDICTED)) |> ungroup()
 
 runscatter(d_processed_corr, CONC_ADJ)
 
@@ -323,13 +325,13 @@ d_qc_1 <- d_processed_corr |>
     CV_TQC = rsd(CONC_ADJ[QC_TYPE == "TQC"]) * 100,
     CV_BQC = rsd(CONC_ADJ[QC_TYPE == "BQC"]) * 100,
     CV_SPL = rsd(CONC_ADJ[QC_TYPE == "SAMPLE"]) * 100,
-    D_ratio = sd(CONC_ADJ[QC_TYPE == "BQC"])/sd(CONC_ADJ[QC_TYPE == "SAMPLE"])
-  ) |> ungroup()
+    D_ratio = sd(CONC_ADJ[QC_TYPE == "BQC"])/sd(CONC_ADJ[QC_TYPE == "SAMPLE"])) |> ungroup()
 
 f <- function(x) broom::glance(lm(AREA ~ AMOUNT, data = x))
 
 d_qc_2 <- d_rqc |> 
-  nest(.by = c(LIPID, CURVE_NO)) |> 
+  group_by(LIPID, CURVE_NO) |>
+  nest() |> 
   mutate(res = purrr::map(data, f)) |> 
   unnest(res)
 
