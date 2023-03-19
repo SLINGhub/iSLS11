@@ -14,9 +14,9 @@ In this first part, we will inspect and process the targeted mass spectrometry (
 
 ![**Figure 1:** Data Processing and QC workflow. Processing steps are indicated by blue boxes, quality control steps by the red boxes. Dotted arrows indicate re-run previous steps. (B. Burla, unpublished)](images/image-1807848975.png){style="text-align: center;" width="525"}
 
-## 2. R packages used
+## 2. Loading R packages
 
-We first load packages used in this part of the workshop. We will employ several packages from the [`tidyverse`](https://www.tidyverse.org) which can be loaded using `library(tidyverse)`. The [`here`](https://here.r-lib.org) package provides the function `here()` that returns the root of the project. [`broom`](https://broom.tidymodels.org) provides functions to convert outputs of standard R functions such as `t.test` and `lm` into [tidy tables](https://r4ds.had.co.nz/tidy-data.html) (dataframes/tibbles). [`ggpmisc`](https://github.com/aphalo/ggpmisc) extends `ggplot2` with functions useful for plotting models and annotations of axes.
+We first load packages used in this part of the workshop. We will employ several packages from the [`tidyverse`](https://www.tidyverse.org) which can be loaded using `library(tidyverse)`. The [`here`](https://here.r-lib.org) package provides the function `here()` that returns the root of the project. [`broom`](https://broom.tidymodels.org) provides functions to convert outputs of standard R functions such as `t.test` and `lm` into [tidy tables](https://r4ds.had.co.nz/tidy-data.html) (dataframes/tibbles). [`ggpmisc`](https://github.com/aphalo/ggpmisc) extends `ggplot2` with functions useful for plotting models and annotations of axes. [`rgoslin`](http://www.bioconductor.org/packages/release/bioc/html/rgoslin.html) provides a function to normalize lipid names and return structural details from lipid names.
 
 ```{r setup}
 rm(list=ls()) # Clear all variables and loaded packages 
@@ -43,7 +43,7 @@ d_orig <- readr::read_csv(file = here("Part_1/data/SPERFECT_SLINGpanel_MRMkit_Ra
 d_orig
 ```
 
-## 4. Prepare and convert to a long format table
+## 4. Preparing and converting to a long format table
 
 First we clean the imported dataset for easier handling later on. Inconsistent sample and lipid names can be problematic as well and may need to be fixed. In our case, we just clean the sample names by removing `.mzML`. Since the file/sample names do not contain any information on the analysis order, we furthermore add the runorder number `RUN_ID` as first column, knowing that the imported data was in the analysis sequence.
 
@@ -65,7 +65,7 @@ d_long <- d_orig |>
 d_long
 ```
 
-## 5. First look at the data
+## 5. A first look at the analysis
 
 Now we are ready to have a first look on how the analysis went. For this we inspect the peak areas of internal standards (ISTDs) over the analysis sequence by plotting them. Different QC samples were included in this analysis, which serve different functions (see also: [@broadhurstGuidelinesConsiderationsUse2018]):
 
@@ -111,7 +111,7 @@ plot(p)
 | We observe that the intensity of some ISTDs shows a drift during the analysis. The two ceramide ISTDs show a very different pattern, even they are from the same class.
 | The variability of the signals of the ISTD in the samples is comparable to the QCs (BQC and TQC), indicating that the ISTDs are not subjected to a major matrix effect. We also observe that signals of the ISTDs in the **PBLK** (processed blank) containg ISTDs is comparable to the other sample types, suggesting now major matrix suppression or interference. For LPC 18:1 d7 the signals are lower in the samples than in the PBLK.
 
-## 6. Checking Linear Response
+## 6. Verifying linear response of the measurements
 
 Injected sample amount need to be carefully chose when measuring analytes covering a large concentration range. It is a trade-off between sensitivity and not exceeding the linear range of the measurement, as well as other factors. While protocols define an optimal injected sample amount (volume), the linear range of the the LC-MS system can change, even within an longer analysis sequence. We therefore always check the linear response as a QC, using dilution, or injection volume, series of a pooled QC extract.
 
@@ -148,7 +148,7 @@ plot(p)
 
 | We see that the response is fairly linear for most species, whereby the TG ISTD shows some saturation. The two curves mostly overlap, suggesting no major changes in sensitivity and linearity over this time, except Cer d18:1/12:0 that showed a considerable drift (see Figure 1).
 
-## 7. Check lipid identifications
+## 7. Verifying lipid identifications
 
 Peak integration of large panels covering many (hundreds) of lipid species needs is challenging. Therefore, it is always good to perform check identification in the final raw dataset. Our data is from a revered phase (RP) - LC where the retention time (RT) increased with increasing carbon chain length and increasing saturation. We can therefore plot the chain length and saturation and possiblly identify potential miss annotations.
 
@@ -217,7 +217,7 @@ d_processed <- d_long |>
   ungroup()
 ```
 
-## 9. Inspect normalized data
+## 9. Inspecting the normalized data
 
 Normalization with the class-specific ISTD often helps to remove systematic drifts and batch effects, but may also introduce additional noise and artefacts. Let's have a look on the how the data looks after normalization.
 
@@ -260,59 +260,79 @@ runscatter <- function(data, var){
     mutate(plt = map(data, ~ plot_page(., rows_page, columns_page)))
   
   # Save pages to a PDF. 
-  pdf(file = here(paste0("Part_1/output/run_scatter_", quo_name(enquo(var)), "_all.pdf")),onefile = TRUE,
-         width = 280/25.4, height = 180/25.4)
+  pdf(file = here(paste0("Part_1/output/runscatter_", quo_name(enquo(var)), ".pdf")),
+      onefile = TRUE, width = 280/25.4, height = 180/25.4)
   #d_plots$plt 
   invisible(purrr::walk(d_plots$plt, print)) # use this to prevent printing of index
   dev.off()
 }
+# and run it twice, plotting raw areas and concentrations
 
-# and run it
-
+runscatter(d_processed, AREA)
 runscatter(d_processed, CONC)
 ```
 
-## 10. Drift correction
+## 10. Drift and batch correction
 
-We observed some drifts in some lipid species - even after normalization with the ISTD. Such drifts an be corrected, which we will do. We assume that the `BQC` (=batch/process QC) represent drifts in our samples as well, and will apply the frequently used `loess` smoothing, based on the `BQC`. In the code below we log-transform the data during the smoothing to make it more robust. Smoothing parameter (i.e. `loess span`) depends on your data, we will chose the default of 0.7 in this case. Note, that for the analysis in the publication another algorithm, built-in to MRMkit , was used, that is based on the all data data rather than just the QCs.
+We observe some drifts in some lipid species - this even after normalization with the ISTD. We will now try to correct these drifts. While drifts are often cause by gradual changes in instrument performance, batch effects can e.g. occur when samples are extracted in batches or when e.g. the instrument needs to be stopped. In both cases, we here assume that the that the `BQC` (=batch/process QC) represent drift and batch effects seen also in the study samples. First, we apply an within-batch smoothing, and then align the batches using median centering.
+
+For the smoothing in the code example below, we will use `loess` based on log-transformed data to make it more robust. Setting of the smoothing parameter, i.e. `loess span`, depends on your data, we will chose the default of 0.75.
+
+Note, that for the analysis in the publication another algorithm, built-in to MRMkit [@teo], was used, which is based on the all data points rather than just QCs.
 
 ```{r}
-d_processed_corr <- d_processed
+d_processed_corr <- d_processed # make a new copy
 
 get_loess <- function(d) {
   tryCatch({
     dt <- tibble::tibble(RUN_ID = seq(min(d$RUN_ID), max(d$RUN_ID), 1))
     res <- stats::loess(
-      data = subset(d, QC_TYPE == "BQC"),
-      formula = CONC_LOG ~ RUN_ID,
-      span = 0.75) %>%
+      data = subset(d, QC_TYPE == "BQC"), formula = CONC_LOG ~ RUN_ID, span = 0.75) |> 
       stats::predict(dt) %>% as.numeric()
     res},
   error = function(e) {return(rep(NA_real_, length(d$RUN_ID)))})
 }
 
+# Within-batch smoothing
+
 d_processed_corr$CONC_LOG <- log2(d_processed_corr$CONC)
 
-d_processed_corr <- d_processed_corr %>%
-  group_by(LIPID) |>  
+d_processed_corr <- d_processed_corr |> 
+  group_by(LIPID, BATCH) |>  
   nest() |>
-  mutate(Y_PREDICTED = purrr::map(data, \(x) get_loess(x))) %>%
+  mutate(Y_PREDICTED = purrr::map(data, \(x) get_loess(x))) |> 
   unnest(cols = c(data, Y_PREDICTED))
 
 d_processed_corr <- d_processed_corr %>%
-  group_by(LIPID) %>%
+  group_by(LIPID, BATCH) |> 
   mutate(Y_PREDICTED = Y_PREDICTED - median(Y_PREDICTED, na.rm = TRUE),
          CONC_ADJ = 2^(CONC_LOG - Y_PREDICTED)) |> ungroup()
+
+# Between-batch median-centering
+
+d_processed_corr <- d_processed_corr |> 
+  dplyr::group_by(LIPID,  BATCH) |> 
+  dplyr::mutate(CONC_ADJ = CONC_ADJ/median(CONC_ADJ[QC_TYPE == "BQC"], na.rm = TRUE)) |> 
+  dplyr::ungroup()
+d_processed_corr <- d_processed_corr |> 
+  dplyr::group_by(LIPID) |> 
+  dplyr::mutate(CONC_ADJ =  CONC_ADJ * median(CONC_ADJ[QC_TYPE == "BQC"], na.rm = TRUE)) |> 
+  dplyr::ungroup()
 
 runscatter(d_processed_corr, CONC_ADJ)
 
 ```
 
-## 11. Calculate quality-control (QC) value for each lipid
+## 11. Calculate quality-control (QC) values
 
-To evaluate the quality of the analysis and to filter the date we calculate different QC values for each lipid species. This included the analytical coefficient of variation (CV) based on the BQCs, the signal-to-blank ratio, and the r squared of the response curves.
+To evaluate the quality of the analysis and to filter the date we calculate different QC values for each lipid species. This included the analytical coefficient of variation (%CV) based on the BQCs, the signal-to-blank ratio, and the r squared of the response curves.
+
+A word of caution here: we apply drift/batch correction to all species here, regardless if there are drift/batch effects. Such correction can also introduce variability and artefacts. Furthermore, we are using the BQCs for smoothing and median centering, the %CVs of the BQCs are therefore as consequence. Ideally we would use a QC subset or another QC set to determine the %CV.
 
 ```{r calc-qc}
+
+## run this line below if you want test QC filtering without drift/batch correction
+#d_processed_corr <- d_processed |> mutate(CONC_ADJ = CONC) # !!!!!!! overwrites correction
 
 rsd <- function(x) sd(x, na.rm = TRUE)/mean(x, na.rm = TRUE)
 
@@ -346,7 +366,7 @@ d_qc <- d_lipids |>
 write_csv(x = d_qc, file = here("Part_1/output/QC-summary.csv"))
 ```
 
-## 12. QC-filter dataset
+## 12. QC-filtering of dataset
 
 Now we apply a QC-filtering step to the data using our chosen criteria, e.g. CV \< 25%. You can play we these parameters and see how it affects the number of species that pass/fail this step.
 
@@ -368,7 +388,7 @@ print(paste0("QC filtering: ", nrow(d_qc[d_qc$QC_pass, ]), " of ", nrow(d_qc), "
 
 So, a total of `r nrow(d_qc[d_qc$QC_pass, ])` of `r nrow(d_qc)` species passed QC. Let us check, if there are lipid classes with many species that failed QC.
 
-## 13. Inspect QC filtering results per lipid class
+## 13. Inspecting the QC-filtering
 
 We now can (and should) have a look at how many species passed the QC criteria and if there are any pattern specific to lipid classes.
 
