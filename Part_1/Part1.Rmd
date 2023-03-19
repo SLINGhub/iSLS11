@@ -235,9 +235,9 @@ runscatter <- function(data, var){
           geom_point(aes(colour = QC_TYPE, fill = QC_TYPE, shape  = QC_TYPE),
                      size = 1, alpha =0.7, stroke = 0.3) +
           facet_wrap(vars(LIPID), ncol = ncols, nrow = nrows, scales="free_y") +
-          stat_smooth(data= subset(data, QC_TYPE=="BQC"), aes(x=RUN_ID, y={{var}}), 
-                      method = "loess", span = 0.75, na.rm = TRUE, se = FALSE, 
-                      color = "brown3", linewidth = .7)+
+          geom_smooth(data= subset(data, QC_TYPE=="BQC"), aes(x=RUN_ID, y={{var}}), 
+                      method = "loess", span = 0.75, formula = y ~ x, se = FALSE,
+                      na.rm = TRUE, color = "brown3", linewidth = .7)+
           scale_shape_manual(na.value = NA, values = qc_shapes) +
           scale_fill_manual(values = qc_colors, na.value = NA) +
           scale_colour_manual(values = qc_colors, na.value = NA) +
@@ -344,7 +344,11 @@ d_qc <- d_lipids |>
 write_csv(x = d_qc, file = here("Part_1/output/QC-summary.csv"))
 ```
 
-## QC filter and save dataset
+## QC-filter dataset
+
+Now we apply a QC-filtering step to the data using our chosen criteria, e.g. CV \< 25%. You can play we these parameters and see how it affects the number of species that pass/fail this step.
+
+For some lipid classes, i.e. DGs , each species was measured via 2 transitions. Which transition is used for quantification was indicated in the metadata file (peakQC), so we can filter for quantifiers. Futhermore, we exclude the ISTDs from the final dataset.
 
 ```{r qc-filter}
 d_qc <- d_qc |> 
@@ -356,13 +360,13 @@ d_qc <- d_qc |>
     QUANTIFIER &
     !str_detect(LIPID, "ISTD"))
 
-print(paste0("So, a total of ", nrow(d_qc[d_qc$QC_pass, ]), " of ", nrow(d_qc), " species passed QC..."))
+print(paste0("QC filtering: ", nrow(d_qc[d_qc$QC_pass, ]), " of ", nrow(d_qc), " species passed QC"))
 
 ```
 
-So, a total of `r nrow(d_qc[d_qc$QC_pass, ])` of `r nrow(d_qc)` species passed QC...
+So, a total of `r nrow(d_qc[d_qc$QC_pass, ])` of `r nrow(d_qc)` species passed QC. Let us check, if there are lipid classes with many species that failed QC.
 
-## Inspect QC results
+## Inspect QC filtering results per lipid class
 
 We now can (and should) have a look at how many species passed the QC criteria and if there are any pattern specific to lipid classes.
 
@@ -378,7 +382,9 @@ ggplot(d_qc_summary,
   coord_flip() + theme_bw()
 ```
 
-# Parse lipid names and save final dataset
+## Saving the final dataset
+
+We now save the final, drift-corrected and QC-filtered concentration data as a wide CSV table, which will then be used for Part 2.
 
 ```{r save-processed-data}
 
