@@ -5,7 +5,7 @@
 > ```{=html}
 > NOTE: Please ensure you have R/RStudio and R packages installed before the workshop, see below. 
 > Contact us, if you encounter any issues!
->```
+> ```
 
 ## Summary
 
