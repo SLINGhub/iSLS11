@@ -8,7 +8,6 @@
 .RData
 .Ruserdata
 **/output/*.pdf
-*.html
 *.docx
 .Rdata
 .httr-oauth
