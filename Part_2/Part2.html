@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Hyungwon Choi">
+
+<title>Part 2: iSLS11 Data Analysis Workshop</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Part2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Part2_files/libs/quarto-html/quarto.js"></script>
+<script src="Part2_files/libs/quarto-html/popper.min.js"></script>
+<script src="Part2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Part2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Part2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Part2_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Part2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Part2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Part2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Part 2: iSLS11 Data Analysis Workshop</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Hyungwon Choi </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In this part of the workshop, we will explore the quantitative lipidomics data reported from the rigorous quality control process from Part 1. First we create an empty folder (output) to store graphics and tables we will produce along the way.</p>
+<p>Read concentration data (repeated measures), plaque volume data (subject level), and sample injection sequence table into <strong>R</strong>’s workspace from the folder named <strong>data</strong> In this data, each participant or subject has two to five visits for blood sampling. Meanwhile, each subject visited one more time for coronary artery imaging via computed tomography coronary angiography (CTCA) at the end of the follow-up. The concentration data were available for each visit, or at the <code>sample</code> level, and the plaque data were saved at the <code>subject</code> level.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#getwd()</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="do">### clear the deck</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">## (a) qdata refers to quantitative (concentration) data </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">##     - repeated measures (sample level)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>qdata <span class="ot">=</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Part_1/output/qc_filtered_results.csv"</span>), </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">header=</span><span class="cn">TRUE</span>, <span class="at">as.is=</span><span class="cn">TRUE</span>, <span class="at">check.names=</span><span class="cn">FALSE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">## pdata refers to plaque volume data -- at the subject level </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">## (one CTCA per subject)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>pdata <span class="ot">=</span> <span class="fu">read.delim</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Part_2/data/SPERFECT_plaque_data.txt"</span>), </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">header=</span>T, <span class="at">as.is=</span>T, <span class="at">check.names=</span>F)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="do">## sdata refers to sample information table </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="do">## (subjects appearing multiple times)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>sdata <span class="ot">=</span> <span class="fu">read.delim</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Part_2/data/SPERFECT_MS_injection_sequence.txt"</span>), </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                   <span class="at">header=</span>T, <span class="at">as.is=</span>T, <span class="at">check.names=</span>F) </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(qdata)[<span class="dv">1</span>] <span class="ot">=</span> <span class="st">"Sample ID"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that CTCA could not be performed for all subjects. We need to do a little bit of matching and aligning exercise between the concentration table, MS analysis sequence table, and the CTCA (outcome) table. Piping is another easy way to do this, but this exercise will help you think about data structures and practice R coding.</p>
+</section>
+<section id="section-1.-data-synchronization" class="level2">
+<h2 class="anchored" data-anchor-id="section-1.-data-synchronization">Section 1. Data Synchronization</h2>
+<p>The goal of this section is to synchronize the three data sets by filtering and matching subjects. Let’s check the concentration data first. We verify that each subject was repeatedly sampled multiple times (3 to 5 times mostly).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">=</span> <span class="fu">t</span>(qdata[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]) </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## first two columns were sample ID (not subject ID!) and </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="do">## injection sample type (QC / Sample)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log2</span>(tmp), <span class="at">cex=</span>.<span class="dv">1</span>, <span class="at">las=</span><span class="dv">2</span>, <span class="at">main=</span><span class="st">"Lipidome distributions"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Part2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Notice that there is an outlier almost at the end of the </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">## analysis sequence. In the original data, turns out that </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## there </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Uncomment the line to identify the sample with aberrant level</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(<span class="fu">log2</span>(tmp), <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">mean</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] -1.0204063233 -0.5332146824 -0.0566130345 -0.6926294051  0.2479817164
+  [6] -0.3937421053 -0.4637844559 -0.2489837310 -0.0396501710 -0.5718745227
+ [11] -0.6930313480 -0.2375488396 -0.9871520346  0.0140476542 -0.5943598248
+ [16] -0.6995613712 -0.2851026710 -0.3305482262 -0.2308877529 -0.5739781956
+ [21] -0.1846633406 -0.3714730862 -0.0325745182 -0.3658616138 -0.4037998391
+ [26]  0.0726253168  0.4242473454 -0.5172327591 -0.4347932132 -0.4742699313
+ [31] -0.2480661988 -0.3192556661 -0.8618479590 -0.5751910009 -0.1571242436
+ [36] -0.2234112387 -0.4516479948  0.1945297488 -0.0830599278 -0.4734800053
+ [41]  0.3394045847 -0.7582765360 -0.4298408183 -0.3299875635  0.0875469565
+ [46] -0.4991136170 -0.3858411765  0.0852697066  0.0033171618 -0.5651972028
+ [51] -1.0315882263  0.0892370045 -0.4979999900 -0.6947288260 -0.9595883768
+ [56] -0.8086916085  0.1242671429 -0.3768141434 -0.4425776772 -0.6986972079
+ [61]  0.0692622089 -0.8625198817 -0.0788393176 -0.3941407654 -0.1596074790
+ [66]  0.4057475747 -0.3719412881 -0.4264101884 -0.5582952012 -0.5934154707
+ [71] -0.2591877264  0.0470147236 -0.4303346693 -0.4123916870  0.0270574733
+ [76] -0.6194958565 -0.3439558284 -0.2139239687  0.2870013637 -0.3934162507
+ [81]  0.1464600741  0.0149271969 -0.0434281930  0.0202006930 -0.7021670540
+ [86] -0.4734678406  0.4747979159 -0.7075608410 -0.4868920918 -0.3046235991
+ [91] -0.5975631741 -0.1902203137  0.2643949552  0.0808598200 -0.2652361335
+ [96] -0.6228281866  0.3590183455 -0.3615387513 -0.5198718634  0.1769977004
+[101] -0.3240426436  0.0230483473 -0.2198609452 -0.3602992206  0.5690075472
+[106] -0.0542714469 -0.2999152805 -0.5375710138 -0.1474516191 -0.6102340451
+[111]  0.0372645413 -0.2286650480 -0.2462926852  0.2297161689  0.2846196236
+[116]  0.1454768448 -0.3976713564 -0.4253088765 -0.8668989958 -0.0220255732
+[121] -0.1498678385 -0.0926931732 -0.0690911129  0.6577747851 -0.5017031805
+[126] -0.3587515035 -0.7569689077 -0.4647562323 -0.1949400720 -0.6267381471
+[131]  0.3171555085 -0.4021144188  0.0418115672 -0.4691151868 -0.4940759368
+[136]  0.0924412455  0.2864552996 -0.2530521788 -0.2567364608 -0.1734012451
+[141] -0.1730008569 -0.2007652702 -0.3610153061 -0.0015746528  0.0172475445
+[146] -0.1300949045 -0.3978614843  0.0189879756 -0.4285082995 -0.2698699792
+[151] -0.2114477504 -0.3108047980 -0.4129639159 -0.5900045093 -0.1480144267
+[156] -0.3772862507 -0.2246450124 -0.1844099435  0.2358722111  0.2109168627
+[161] -0.8538691552 -0.4083181801 -0.5690861143 -0.3328014306 -0.4257751071
+[166]  0.1150805554 -0.3259250024 -0.0008797792 -0.0534515987 -0.1081419213
+[171]  0.1507499039 -0.4164532087 -0.2039199799 -0.9552533349  0.0689674618
+[176] -0.3309857177 -0.3460411204 -0.6843203684 -0.2762815676 -0.5617905828
+[181]  0.0296391359 -0.4332346551 -0.5090078236 -0.2564398236 -0.5820752481
+[186] -0.5559467986 -0.3216912099 -0.1461234838 -0.0892177800 -0.3516295268
+[191] -0.4061460673 -0.6506698292  0.3920141803 -0.5056594501 -0.3757967476
+[196] -0.7520875804 -0.7182173840 -0.5031000224 -0.1858489481 -0.2131076746
+[201] -0.3921331547 -0.0746155365 -0.2113502282  0.0461484523 -0.2481536932
+[206] -0.1640165035 -0.7468658239 -0.8996608536 -0.3715053722 -0.3073310977
+[211] -0.5257630508 -0.4039717248 -0.2838988497 -0.6634436474 -0.5630206354
+[216]  0.4536257796 -0.6492366912 -0.4715054238 -0.2103514801  0.1832515461
+[221]  0.3184274296 -0.5736009564 -1.1650372211 -0.4843332701 -0.6900943513
+[226] -0.4682224810 -0.4667885173 -0.0055539826 -0.6395354569 -0.5150706791
+[231] -0.7013023154 -0.4183408263  0.3039148167 -0.7354012228 -0.4326603285
+[236] -0.2805923586 -0.7004073909 -0.0707309969 -0.0902849364 -0.7150616634
+[241]  0.0932976930  0.1507539664 -0.2643665846 -0.2591874581 -0.4018857593
+[246] -0.4327262685 -0.2432582352  0.1360823925 -0.0072113054 -0.2523449628
+[251] -0.4514119069 -0.0465206198  0.1315153446 -0.4741184880 -0.2306870658
+[256] -0.9668960095 -0.5161118519 -0.2290901924 -0.3607239598 -0.3793458644
+[261]  0.4116340744  0.1889451959 -0.0749216946 -0.5711375256 -0.6532343071
+[266]  0.5149225254 -0.2977915145 -0.1045570565  0.5177085666 -0.5612985320
+[271] -0.2671603971 -0.1603185015  0.2239047597 -0.0117642536 -0.4911388704
+[276] -0.2524163638 -0.2457712514 -0.4335933299 -0.3009120410  0.0110940084
+[281]  0.4027597784 -0.0347751437 -0.4510550101 -0.3231716614 -0.5523902281
+[286] -0.0603345922 -0.3523513149 -0.0425538366  0.3607478133  0.0587752305
+[291]  0.0952817681 -0.2988489642 -0.0958905648 -0.1145181734 -0.0328148482
+[296] -0.0848221238 -0.0123697706 -0.3166667251 -0.4846145101 -0.3744380781
+[301]  0.0864320262  0.2851753380 -0.0160505034 -0.3899744748 -0.0485679514
+[306] -0.4475108085 -0.4242910673 -0.1449633991 -0.0260285781 -0.3907637776
+[311] -0.4267343969 -0.2496553859 -0.6276708233 -0.2902818327 -0.8802733639
+[316] -0.3628580341 -0.0567846815 -0.5027685104  0.0477922801 -0.5903616103
+[321] -0.2898573682  0.0761246269 -0.0536877350  0.2141736807  0.1525220141
+[326] -0.0894392882 -0.3550752078 -0.3999884002 -0.4355874321 -0.2730689320
+[331] -0.9304568439 -0.3525608101 -0.0753032387 -0.4329572783 -0.0833146222
+[336] -0.8571882047 -0.2370181364 -0.7331741327 -0.8266228298 -0.6118386299
+[341] -0.5716763245 -0.7548418444 -0.6318865123 -1.0348280786 -0.5522134355
+[346] -0.8480841769 -0.7514442598 -0.6718779568 -0.6518950576 -0.6837590497
+[351] -0.8387366532 -0.1176941167 -0.5531656692 -0.3024400267 -0.3594623984
+[356] -0.7944746783 -0.6860962989 -0.1585353908 -0.7799626241 -0.6592312439
+[361] -0.5100083140 -0.1004261882 -0.4004634106 -0.3715040743 -0.0208472306
+[366] -0.7662712497  0.1538798872  0.0743214882 -0.8732498903 -0.1740913831
+[371] -0.0330328712 -0.1321927754 -0.7096020543 -0.1032313773 -0.7010088099
+[376] -8.4826198124 -0.6240708459 -0.6257121851</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## It turns out that 376th column</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>rr <span class="ot">=</span> qdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span>[<span class="dv">376</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "LT_batch6_51"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>[sdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span> <span class="sc">==</span> rr] </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "C103"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This individual has only three data points and we have to remove one.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># He/she will later be disqualified from the analysis. </span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Remove from the concentration table</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>qdata <span class="ot">=</span> qdata[<span class="sc">-</span><span class="dv">376</span>, ]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Also remove from the sample info table</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>sdata <span class="ot">=</span> sdata[sdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span> <span class="sc">!=</span> rr, ]  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now there are a few character strings to parse in the sample information table (<code>sdata</code>). For example, the sample identifier column can be broken into batch and order numbers, which are useful for sorting samples in injection sequence.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create placeholders</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>Batch <span class="ot">=</span> <span class="cn">NA</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>OrderInBatch <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">## for-loop to parse each entry </span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(sdata)) {</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Split the string by underscores</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## strsplit function always returns a "list" -- double bracket at the end</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">=</span> <span class="fu">strsplit</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span>[i], <span class="st">"_"</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Get the batch number and order</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  sdata<span class="sc">$</span>Batch[i] <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">"batch"</span>, <span class="st">""</span>, tmp[<span class="dv">2</span>])</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## in-batch injection sequence is easy</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  sdata<span class="sc">$</span>OrderInBatch[i] <span class="ot">=</span> tmp[<span class="dv">3</span>]</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="do">## Change the character strings to numeric values </span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>Batch <span class="ot">=</span> <span class="fu">as.numeric</span>(sdata<span class="sc">$</span>Batch)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>OrderInBatch <span class="ot">=</span> <span class="fu">as.numeric</span>(sdata<span class="sc">$</span>OrderInBatch)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Creating unique subject number in the sample information table</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>usub <span class="ot">=</span> <span class="fu">unique</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>SIDnum <span class="ot">=</span> <span class="fu">match</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>, usub) <span class="do">## numerical ID of subjects</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we are going to check how many repeated measures each individual subject has. Subjects with two or fewer observations will be removed since we have to compute within-individual coefficients of variation later on, which requires at least three observations. We also remove subjects with no plaque volume data (in <code>pdata</code> object).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">=</span> <span class="fu">table</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">=</span> <span class="fu">names</span>(counts)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Find subject IDs with fewer than three observations</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>remove.id <span class="ot">=</span> patients[counts <span class="sc">&lt;</span> <span class="dv">3</span>] </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="do">## two individuals will be lost: C103, C131</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Remove from the sample information table</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>remove.index <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">%in%</span> remove.id</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>sdata <span class="ot">=</span> sdata[<span class="sc">-</span>remove.index, ]</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="do">## We now remove subjects without plaque volume data (in `sdata` object)</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="do">## using R's "in-the-array" operator</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(pdata<span class="sc">$</span><span class="st">`</span><span class="at">PATIENT CODE</span><span class="st">`</span> <span class="sc">%in%</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>)  <span class="do">## evaluates to TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mid <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">%in%</span> pdata<span class="sc">$</span><span class="st">`</span><span class="at">PATIENT CODE</span><span class="st">`</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sdata <span class="ot">=</span> sdata[mid, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally, order samples in the the concentration table using the sample ID as the match key.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span> <span class="sc">%in%</span> qdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span>) <span class="do">## should evaluate to TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mid <span class="ot">=</span> <span class="fu">match</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span>, qdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>qdata <span class="ot">=</span> qdata[mid, ]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(qdata) <span class="ot">=</span> qdata<span class="sc">$</span><span class="st">`</span><span class="at">Sample ID</span><span class="st">`</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>qdata <span class="ot">=</span> qdata[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we have all three data sets aligned in terms of subjects.</p>
+<p>Up to this point we only cleaned up the sample and subject information. Our molecular data are lipids – there can be meta data associated with those variables, too. For example, we can export a table of lipid names in the concentration data, and edit it outside R, and read the table back in.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lipids <span class="ot">=</span> <span class="fu">colnames</span>(qdata)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Create a data frame with extra columns</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>ltab <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">Lipids=</span>lipids, <span class="at">Class=</span><span class="cn">NA</span>, <span class="at">SubClass=</span><span class="cn">NA</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">stringsAsFactors=</span>F, <span class="at">check.names=</span>F)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Write it to a file</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(ltab, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Part_2/data/Lipid_table.txt"</span>), <span class="at">sep=</span><span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">quote=</span>F, <span class="at">row.names=</span>F, <span class="at">na=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We now have an opportunity to add more meta information such as the lipid class and subclass info manually, say, in Excel, and read it back in. You can perform the same operation within R as well.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ltab <span class="ot">=</span> <span class="fu">read.delim</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Part_2/data/Lipid_table_editted.txt"</span>), </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">header=</span>T, <span class="at">as.is=</span>T, <span class="at">check.names=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This information will be used frequently when we plot the data below.</p>
+</section>
+<section id="section-2.-reassuring-drift-and-batch-effects" class="level2">
+<h2 class="anchored" data-anchor-id="section-2.-reassuring-drift-and-batch-effects">Section 2. Reassuring drift and batch effects</h2>
+<p>We will now make copies of the data tables and rearrange the concentration data following the injection sequence (with sample preparation batches indicated). When we plot the concentration values this way, we can evaluate batch effects and signal drifts in each analyte. Part 1 ensures these artifacts are removed the data. Sometimes we work with data sets produced by others (e.g.&nbsp;facilities). In such an arrangement, it is important to request the analysis sequence and sample preparation batch information, so that you can do the following.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ord <span class="ot">=</span> <span class="fu">order</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Analysis Sequence</span><span class="st">`</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sdata2 <span class="ot">=</span> sdata[ord, ]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>qdata2 <span class="ot">=</span> qdata[ord, ]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="do">## You can do the same with the newly parsed variables </span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Batch and OrderInBatch</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="do">## ord = order(sdata$Batch, sdata$OrderInBatch)</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Identify the indices at which batch numbers switch</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>ticks <span class="ot">=</span> <span class="fu">diff</span>(<span class="fu">as.numeric</span>(sdata2<span class="sc">$</span>Batch))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>ticks <span class="ot">=</span> <span class="fu">which</span>(ticks <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>nticks <span class="ot">=</span> <span class="fu">length</span>(ticks)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Graphics: plot each analyte in one panel in injection sequence</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="do">## Color the dots by the extraction batches</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"output/analysis_sequence_plots.pdf"</span>, <span class="at">height=</span><span class="dv">8</span>, <span class="at">width=</span><span class="dv">10</span>, <span class="at">useDingbats=</span>F)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>))</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(qdata2)) {</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(qdata2[,k], <span class="at">pch=</span><span class="dv">19</span>, <span class="at">cex=</span>.<span class="dv">5</span>, <span class="at">col=</span>sdata2<span class="sc">$</span>Batch, </span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab=</span><span class="st">"Analysis Sequence"</span>, <span class="at">ylab=</span><span class="st">"Concentrations"</span>, <span class="at">main=</span><span class="fu">colnames</span>(qdata2)[k])</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nticks) <span class="fu">abline</span>(<span class="at">v=</span>ticks[j]<span class="sc">+</span><span class="fl">0.5</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">col=</span><span class="dv">2</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+</div>
+</div>
+</section>
+<section id="section-3.-data-visualization-in-heatmap-and-projection-plot" class="level2">
+<h2 class="anchored" data-anchor-id="section-3.-data-visualization-in-heatmap-and-projection-plot">Section 3. Data visualization in heatmap and projection plot</h2>
+<p>For downstream analysis, let’s first merge the plaque data (<code>pdata</code>) into the sample information table (<code>sdata</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mm <span class="ot">=</span> <span class="fu">match</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>, pdata<span class="sc">$</span><span class="st">`</span><span class="at">PATIENT CODE</span><span class="st">`</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sdata <span class="ot">=</span> <span class="fu">data.frame</span>(sdata, pdata[mm, ],  <span class="do">## you can use merge, dplyr::join family functions too, I'm just old-fashioned</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">stringsAsFactors=</span>F, <span class="at">check.names=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To visualize the entire data in a heatmap, we need to standardize the concentration levels across the lipid species, so that we can represent <code>high</code> and <code>low</code> levels with the same color scale. Here I chose to log base 2 transform and center the values by median in each lipid species.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(qdata) <span class="ot">=</span> <span class="fu">paste</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>, sdata<span class="sc">$</span><span class="st">`</span><span class="at">Sampling Time Point</span><span class="st">`</span>, <span class="at">sep=</span><span class="st">"_"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>qdata <span class="ot">=</span> <span class="fu">log2</span>(qdata) <span class="do">## for normality</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>q.med <span class="ot">=</span> <span class="fu">apply</span>(qdata, <span class="dv">2</span>, median)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>qdata.norm <span class="ot">=</span> <span class="fu">sweep</span>(qdata, <span class="dv">2</span>, q.med) <span class="do">## median normalized data (imputed)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Before moving onto downstream analyses, let us re-order the individuals. We use the total lipid-rich plaque volume as the ordering variable as it is one of the main outcomes of interest in this study. In case there are many zero volumes (undetected plaques), we also throw in subject number as an additional ordering variable to ensure the repeated measures from the same individual are grouped together after shuffling.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ord <span class="ot">=</span> <span class="fu">order</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">total lipid plaq vol index</span><span class="st">`</span>, sdata<span class="sc">$</span>SIDnum)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sdata <span class="ot">=</span> sdata[ord, ]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>qdata <span class="ot">=</span> qdata[ord, ]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>qdata.norm <span class="ot">=</span> qdata.norm[ord, ]</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">total lipid plaq vol index</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Part2_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now let’s draw the heatmap with the plaque volumes displayed as the meta information (row-wise).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!require("BiocManager", quietly = TRUE))</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  install.packages("BiocManager")</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#BiocManager::install("ComplexHeatmap")</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("circlize")</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="co">#or devtools::install_github("jokergoo/circlize")</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(circlize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>========================================
+circlize version 0.4.15
+CRAN page: https://cran.r-project.org/package=circlize
+Github page: https://github.com/jokergoo/circlize
+Documentation: https://jokergoo.github.io/circlize_book/book/
+
+If you use it in published research, please cite:
+Gu, Z. circlize implements and enhances circular visualization
+  in R. Bioinformatics 2014.
+
+This message can be suppressed by:
+  suppressPackageStartupMessages(library(circlize))
+========================================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ComplexHeatmap) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: grid</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>========================================
+ComplexHeatmap version 2.14.0
+Bioconductor page: http://bioconductor.org/packages/ComplexHeatmap/
+Github page: https://github.com/jokergoo/ComplexHeatmap
+Documentation: http://jokergoo.github.io/ComplexHeatmap-reference
+
+If you use it in published research, please cite either one:
+- Gu, Z. Complex Heatmap Visualization. iMeta 2022.
+- Gu, Z. Complex heatmaps reveal patterns and correlations in multidimensional 
+    genomic data. Bioinformatics 2016.
+
+
+The new InteractiveComplexHeatmap package can directly export static 
+complex heatmaps into an interactive Shiny app with zero effort. Have a try!
+
+This message can be suppressed by:
+  suppressPackageStartupMessages(library(ComplexHeatmap))
+========================================</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Meta information first</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345679</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>row_ha <span class="ot">=</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Total=</span><span class="fu">anno_barplot</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Total Plaque vol index</span><span class="st">`</span>),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">Calcified=</span><span class="fu">anno_barplot</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">total calc plaq vol index</span><span class="st">`</span>),</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">LipidRich=</span><span class="fu">anno_barplot</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">total lipid plaq vol index</span><span class="st">`</span>),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">Fibrotic=</span><span class="fu">anno_barplot</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">total fibrot plaq vol index</span><span class="st">`</span>),</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                           <span class="at">annotation_name_rot =</span> <span class="dv">270</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">which=</span><span class="st">"row"</span>, <span class="at">border=</span><span class="cn">TRUE</span>, <span class="at">show_legend=</span><span class="cn">TRUE</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>col_ha <span class="ot">=</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">LipidClass=</span>ltab<span class="sc">$</span>Class,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">which=</span><span class="st">"col"</span>, <span class="at">border=</span><span class="cn">TRUE</span>, <span class="at">show_legend=</span><span class="cn">TRUE</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Draw heatmap and save it to a pdf file</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"output/heatmap_lipids.pdf"</span>, <span class="at">height=</span><span class="dv">30</span>, <span class="at">width=</span><span class="dv">30</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(<span class="fu">as.matrix</span>(qdata.norm), <span class="at">name =</span> <span class="st">"Normalized Levels"</span>, </span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_columns =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">6</span>),</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>),</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">column_title =</span> <span class="st">""</span>,</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"white"</span>, <span class="st">"red"</span>)),</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">left_annotation =</span> row_ha,</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">top_annotation =</span> col_ha, </span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_distance_rows =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_method_rows =</span> <span class="st">"average"</span>,</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_distance_columns =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_method_columns =</span> <span class="st">"average"</span></span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+</div>
+</div>
+<p>Principal Component Analysis (PCA): We perform PCA and draw the projection plot on the new axes defined by PC1 and PC2. One we figure out that step, we can then track each individual’s time course trajectory over this map.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">=</span> qdata</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>tmp.pca <span class="ot">=</span> <span class="fu">prcomp</span>(tmp, <span class="at">scale.=</span><span class="cn">TRUE</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>vv <span class="ot">=</span> tmp.pca<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>vv <span class="ot">=</span> <span class="fu">round</span>(vv <span class="sc">/</span> <span class="fu">sum</span>(vv) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vv) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 27.95 20.90  5.02  4.63  3.72  3.44  2.80  2.66  2.30  1.73  1.61  1.36
+ [13]  1.14  0.95  0.89  0.81  0.80  0.70  0.66  0.62  0.58  0.53  0.50  0.48
+ [25]  0.45  0.42  0.40  0.38  0.36  0.35  0.33  0.32  0.32  0.30  0.28  0.27
+ [37]  0.25  0.24  0.23  0.21  0.21  0.19  0.19  0.18  0.18  0.17  0.17  0.16
+ [49]  0.16  0.16  0.15  0.14  0.14  0.13  0.13  0.13  0.12  0.12  0.12  0.11
+ [61]  0.11  0.11  0.11  0.10  0.10  0.10  0.10  0.09  0.09  0.09  0.09  0.08
+ [73]  0.08  0.08  0.08  0.07  0.07  0.07  0.07  0.07  0.07  0.06  0.06  0.06
+ [85]  0.06  0.06  0.06  0.06  0.06  0.06  0.05  0.05  0.05  0.05  0.05  0.05
+ [97]  0.05  0.05  0.05  0.05  0.04  0.04  0.04  0.04  0.04  0.04  0.04  0.04
+[109]  0.04  0.04  0.04  0.03  0.03  0.03  0.03  0.03  0.03  0.03  0.03  0.03
+[121]  0.03  0.03  0.03  0.03  0.03  0.03  0.03  0.03  0.03  0.03  0.03  0.02
+[133]  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02
+[145]  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02  0.02
+[157]  0.02  0.02  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01
+[169]  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01
+[181]  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01
+[193]  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01
+[205]  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.01  0.00  0.00  0.00  0.00
+[217]  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+[229]  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+[241]  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+[253]  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+[265]  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+[277]  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+[289]  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00
+[301]  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("scales")</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("devtools")</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github("r-lib/scales")</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The output will be a multi-page deck of the same PCA plots,</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># with each plot showing one subject's trajectory over the PC coordinates.</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"output/PCAplot.pdf"</span>, <span class="at">height=</span><span class="dv">12</span>, <span class="at">width=</span><span class="dv">11</span>, <span class="at">useDingbats =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  THRES <span class="ot">=</span> <span class="fu">max</span>(<span class="fu">abs</span>(tmp.pca<span class="sc">$</span>x[,<span class="dv">1</span>]))</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  dot.col <span class="ot">=</span> <span class="fu">alpha</span>(sdata<span class="sc">$</span>SIDnum, <span class="fl">0.5</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  dot.size <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">Total Plaque vol index</span><span class="st">`</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  dot.size <span class="ot">=</span> dot.size <span class="sc">/</span> <span class="fu">mean</span>(dot.size)  <span class="do">## "normal" dot size is 1</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="do">##### OVERALL PLOT FIRST</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(tmp.pca<span class="sc">$</span>x[,<span class="dv">1</span>], tmp.pca<span class="sc">$</span>x[,<span class="dv">2</span>], </span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span>dot.col, <span class="at">pch=</span><span class="dv">19</span>, </span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> dot.size,  <span class="do">### dot size proportional to total plaque volume</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab=</span><span class="fu">paste</span>(<span class="st">"PC1 ("</span>, <span class="fu">round</span>(vv[<span class="dv">1</span>],<span class="dv">1</span>), <span class="st">"%)"</span>, <span class="at">sep=</span><span class="st">""</span>), </span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab=</span><span class="fu">paste</span>(<span class="st">"PC2 ("</span>, <span class="fu">round</span>(vv[<span class="dv">2</span>],<span class="dv">1</span>), <span class="st">"%)"</span>, <span class="at">sep=</span><span class="st">""</span>),</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">main=</span><span class="st">"SPERFECT"</span>, </span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span>THRES,THRES), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>THRES,THRES))</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### Trajectory tracing of individual subjects</span></span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### Per individual --&gt; for loop</span></span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>  subjects <span class="ot">=</span> <span class="fu">unique</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>)</span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>  nsubjects <span class="ot">=</span> <span class="fu">length</span>(subjects)</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>  mm <span class="ot">=</span> <span class="fu">match</span>(subjects, sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>) <span class="do">## mapping back to expanded table</span></span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>  subject.col <span class="ot">=</span> sdata<span class="sc">$</span>SIDnum[mm]</span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>  proj <span class="ot">=</span> tmp.pca<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="do">### PC1 and PC2 coordinates only</span></span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsubjects) {</span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Background plot</span></span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">plot</span>(tmp.pca<span class="sc">$</span>x[,<span class="dv">1</span>], tmp.pca<span class="sc">$</span>x[,<span class="dv">2</span>], </span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">col=</span>dot.col, <span class="at">cex=</span>.<span class="dv">5</span>,</span>
+<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab=</span><span class="fu">paste</span>(<span class="st">"PC1 ("</span>, <span class="fu">round</span>(vv[<span class="dv">1</span>],<span class="dv">1</span>), <span class="st">"%)"</span>, <span class="at">sep=</span><span class="st">""</span>), </span>
+<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab=</span><span class="fu">paste</span>(<span class="st">"PC2 ("</span>, <span class="fu">round</span>(vv[<span class="dv">2</span>],<span class="dv">1</span>), <span class="st">"%)"</span>, <span class="at">sep=</span><span class="st">""</span>),</span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">main=</span>subjects[i], </span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span>THRES,THRES), <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span>THRES,THRES))</span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Get indices of observations for the corresponding individual</span></span>
+<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a>    coord <span class="ot">=</span> <span class="fu">which</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">==</span> subjects[i])</span>
+<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a>    nn <span class="ot">=</span> <span class="fu">length</span>(coord)</span>
+<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Draw arrows by connecting adjacent time points</span></span>
+<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>nn) {</span>
+<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a>      x0 <span class="ot">=</span> proj[coord[k<span class="dv">-1</span>],<span class="dv">1</span>]</span>
+<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a>      y0 <span class="ot">=</span> proj[coord[k<span class="dv">-1</span>],<span class="dv">2</span>]</span>
+<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a>      x1 <span class="ot">=</span> proj[coord[k],<span class="dv">1</span>]</span>
+<span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a>      y1 <span class="ot">=</span> proj[coord[k],<span class="dv">2</span>]</span>
+<span id="cb33-58"><a href="#cb33-58" aria-hidden="true" tabindex="-1"></a>      <span class="fu">arrows</span>(x0,y0,x1,y1, <span class="at">col=</span>subject.col[i], <span class="at">length=</span><span class="fl">0.07</span>, <span class="at">lwd=</span><span class="fl">1.5</span>)    </span>
+<span id="cb33-59"><a href="#cb33-59" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a>    <span class="do">## Put text labels</span></span>
+<span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nn) {</span>
+<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a>      x1 <span class="ot">=</span> proj[coord[k],<span class="dv">1</span>]</span>
+<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a>      y1 <span class="ot">=</span> proj[coord[k],<span class="dv">2</span>]</span>
+<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a>      <span class="fu">text</span>(x1, y1, subjects[i], <span class="at">cex=</span>.<span class="dv">4</span>, <span class="at">col=</span>subject.col[i])    </span>
+<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a>    }  </span>
+<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+</div>
+</div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAABH0lEQVR4XmNgGAVDCqxdvzVhzcbNm6mBK6uqVqObDwf///9nXLt+SzG6JlJxTW3tVpBZ6OajgP3797Os3bClFV0zsbiuoXEfyAx0c7GCRTt3cq9Zv7UX3RBCuL6x8TBIL7p5eMGqVbv512zYMgvdMFy4san1FEgPujlEgbVrd0gCg3EJuqHouLm59TxILbp+ksCqjdvV12zcshLdcBhuamm7BFKDro8ssGbjRr01G7aux7Ckte0qSA5dPUVg9frNDkDLNsGDq7X9GkgMXR1VwNoNm0MgPmm/DmKjy49wwLjIbzM1MLq5GIBxgc9mhm2eFGGwGYQA42wvDI2kYrAZhADjdEyNpGKwGYQA42Q3DI2kYrAZBEGfy2aq4FEw5AAASl8F3R9fQqAAAAAASUVORK5CYII=.png" title="Run All Chunks Above" class="img-fluid"></p>
+</section>
+<section id="section-4.-clustering-of-subjects-by-plaque-volume-outcome-data-only" class="level2">
+<h2 class="anchored" data-anchor-id="section-4.-clustering-of-subjects-by-plaque-volume-outcome-data-only">Section 4. Clustering of subjects by plaque volume (outcome data only)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plaque values are all in different absolute levels</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="do">## For heatmap visualization, it is necessary to normalize them</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="do">## so that they are in the same scale. </span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>pdata2 <span class="ot">=</span> pdata[,<span class="sc">-</span><span class="dv">1</span>] </span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(pdata2) <span class="ot">=</span> pdata[,<span class="dv">1</span>]</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(pdata2)) {</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  pdata2[,k] <span class="ot">=</span> pdata2[,k] <span class="sc">/</span> <span class="fu">mean</span>(pdata2[,k])</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the data</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"output/heatmap_subjects_outcome.pdf"</span>, <span class="at">height=</span><span class="dv">10</span>, <span class="at">width=</span><span class="dv">5</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(<span class="fu">as.matrix</span>(pdata2), <span class="at">name =</span> <span class="st">"Normalized Volumes"</span>, </span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_columns =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">6</span>),</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>),</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">column_title =</span> <span class="st">"Plaque volume"</span>,</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>)),</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_distance_rows =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_method_rows =</span> <span class="st">"average"</span>,</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_distance_columns =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_method_columns =</span> <span class="st">"average"</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+</div>
+</div>
+<p>Let’s use hierarchical clustering as the results with three obvious clusters seem to make sense (this may differ slightly from the data published in the paper).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Use the same distance metric and linkage method used above</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">=</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(<span class="fu">t</span>(pdata2)))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>hc<span class="ot">=</span><span class="fu">hclust</span>(dd, <span class="at">method=</span><span class="st">"average"</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Visualize the dendrogram</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc, <span class="at">main=</span><span class="st">"Pearson / Average Linkage"</span>, <span class="at">xlab=</span><span class="st">""</span>, <span class="at">sub=</span><span class="st">""</span>, <span class="at">cex=</span>.<span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Part2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>clus <span class="ot">=</span> <span class="fu">cutree</span>(hc, <span class="dv">3</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Save the subject IDs for individual clusters</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>C1 <span class="ot">=</span> <span class="fu">names</span>(clus)[clus <span class="sc">==</span> <span class="dv">1</span>] <span class="do">## Lipid-rich plaque</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>C2 <span class="ot">=</span> <span class="fu">names</span>(clus)[clus <span class="sc">==</span> <span class="dv">2</span>] <span class="do">## Low plaque</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>C3 <span class="ot">=</span> <span class="fu">names</span>(clus)[clus <span class="sc">==</span> <span class="dv">3</span>] <span class="do">## Calcified plaque</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Assign the group labels onto the sdata object (sample info table)</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>Cluster <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>Cluster[sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">%in%</span> C1] <span class="ot">=</span> <span class="st">"Lipid"</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>Cluster[sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">%in%</span> C2] <span class="ot">=</span> <span class="st">"Low"</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>Cluster[sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">%in%</span> C3] <span class="ot">=</span> <span class="st">"Calcified"</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>sdata<span class="sc">$</span>Cluster <span class="ot">=</span> <span class="fu">factor</span>(sdata<span class="sc">$</span>Cluster, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Low"</span>,<span class="st">"Lipid"</span>,<span class="st">"Calcified"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="section-5.-dissecting-the-within-individual-and-between-individual-variabilities" class="level2">
+<h2 class="anchored" data-anchor-id="section-5.-dissecting-the-within-individual-and-between-individual-variabilities">Section 5. Dissecting the within-individual and between-individual variabilities</h2>
+<p>In this section, we dissect the overall variance of each lipid species into the within-individual variability (coefficient-of-variation w) and the between-individual variability (coefficient-of-variation g). Theoretically speaking, the former also absorbs much of the analytical variability (e.g.&nbsp;%CoV from technical QCs), but we will ignore this in this workshop. These measures are population-level characteristics of analytes – we are trying to estimate them from this data set. Usually these values are estimated from a large cohort (N&gt;1,000) for clinical-grade assays.</p>
+<p>Why do we do this? First of all, it is informative – how the variability varies across lipid classes in the circulating blood. Second, conventionally <em>good</em> biomarkers are the ones with large inter-individual variability and small intra-individual variability. Hence this characterization can help us prioritize the lipid classes in biomarker studies.</p>
+<p>First, we write a <code>function</code> to compute the coefficient of variation (CoV%) from log-transformed data (mention Canchola et al paper) - the formula is not the ratio of stdev over mean!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>cov.logged <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">logbase=</span><span class="dv">2</span>) {</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  var.x <span class="ot">=</span> <span class="fu">var</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  cv <span class="ot">=</span> logbase<span class="sc">^</span>(<span class="fu">log</span>(logbase) <span class="sc">*</span> var.x) <span class="sc">-</span> <span class="dv">1</span>  </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#log function in R is natural log</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(cv) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using this function, we approximate the intra-individual variability (CoV_w) as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## compute CoV in each individual</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>subjects <span class="ot">=</span> <span class="fu">unique</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>nsubjects <span class="ot">=</span> <span class="fu">length</span>(subjects)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>lipids <span class="ot">=</span> <span class="fu">colnames</span>(qdata)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>nlipids <span class="ot">=</span> <span class="fu">length</span>(lipids)</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="do">### placeholders to keep CV% values</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>COVtab <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>, nlipids, nsubjects) </span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(COVtab) <span class="ot">=</span> lipids</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(COVtab) <span class="ot">=</span> subjects</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nlipids) {</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsubjects) {</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    rid <span class="ot">=</span> <span class="fu">which</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">==</span> subjects[j])</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    COVtab[i,j] <span class="ot">=</span> <span class="fu">cov.logged</span>(qdata[rid,i])</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a><span class="do">### Order by plaque clusters</span></span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">=</span> sdata<span class="sc">$</span>Cluster[<span class="fu">match</span>(subjects, sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>)]</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>ord <span class="ot">=</span> <span class="fu">order</span>(groups)</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>COVtab <span class="ot">=</span> COVtab[,ord]</span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">=</span> groups[ord]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s visualize the results:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345679</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>row_ha <span class="ot">=</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Class=</span>ltab<span class="sc">$</span>Class,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">annotation_name_rot =</span> <span class="dv">270</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">which=</span><span class="st">"row"</span>, <span class="at">border=</span><span class="cn">TRUE</span>, <span class="at">show_legend=</span><span class="cn">TRUE</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>col_ha <span class="ot">=</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Group=</span>groups,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">which=</span><span class="st">"col"</span>, <span class="at">border=</span><span class="cn">TRUE</span>, <span class="at">show_legend=</span><span class="cn">TRUE</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"output/COV_w.pdf"</span>, <span class="at">height=</span><span class="dv">25</span>, <span class="at">width=</span><span class="dv">15</span>)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(<span class="fu">as.matrix</span>(COVtab), <span class="at">name =</span> <span class="st">"CoV"</span>, </span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_columns =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">6</span>),</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>),</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">column_title =</span> <span class="st">"Plaque Group"</span>,</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="dv">20</span>,<span class="dv">70</span>), <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>)),</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>        <span class="do">## Note the two color schemes</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">left_annotation =</span> row_ha,</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">top_annotation =</span> col_ha,</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_distance_rows =</span> <span class="st">"euclidean"</span>,</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_method_rows =</span> <span class="st">"average"</span>,</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_distance_columns =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_method_columns =</span> <span class="st">"average"</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+</div>
+</div>
+<p>Now, how should we estimate the inter-individual variability (CoV_g)? As a short-cut method, we can approximate this by calculating CoV_g at the averaged (log2) data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>mm <span class="ot">=</span> <span class="fu">match</span>(subjects, sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>qdata.avg <span class="ot">=</span> qdata[mm, ]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsubjects) {</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  rid <span class="ot">=</span> <span class="fu">which</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">==</span> subjects[i])</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## averaging over replicates</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  qdata.avg[i, ] <span class="ot">=</span> <span class="fu">apply</span>(qdata[rid, ], <span class="dv">2</span>, mean)  </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>COVg_vec <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nlipids)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nlipids) {</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  COVg_vec[i] <span class="ot">=</span> <span class="fu">cov.logged</span>(qdata.avg[,i])</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we average the within-individual CoV (CoV_w) to compare the two CoV’s:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>COVw_vec <span class="ot">=</span> <span class="fu">apply</span>(COVtab, <span class="dv">1</span>, median)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Visualizing this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="do">## colors for lipid classes</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(ltab<span class="sc">$</span>Class)) <span class="sc">*</span> <span class="dv">3</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>cl <span class="ot">=</span> <span class="fu">alpha</span>(cl, <span class="fl">0.6</span>) <span class="do">### opacity</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Scatter plot, with within-individual on the X-axis</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="do">## between-individual on the Y-axis</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(COVw_vec, COVg_vec, <span class="at">xlab=</span><span class="st">"CoV% (intra)"</span>, <span class="at">ylab=</span><span class="st">"CoV% (inter)"</span>, </span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>), </span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col=</span>cl)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="fl">1.6</span>,<span class="at">lty=</span><span class="dv">2</span>)  <span class="do">## shows CoV_g &gt; CoV_w</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Create a legend</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>uclass <span class="ot">=</span> <span class="fu">unique</span>(ltab<span class="sc">$</span>Class)</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>ucolor <span class="ot">=</span> cl[<span class="fu">match</span>(uclass,ltab<span class="sc">$</span>Class)]</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>, <span class="at">legend=</span>uclass, <span class="at">col=</span>ucolor, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">ncol=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Part2_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Note: this approximation-based analysis is not a perfect one. It can either over-estimate the CoV_g or under-estimate CoV_w - either or both. The two measures of variability have to be simultaneously deconvoluted from the data, not separately. Recall that purely analytical variability (CoV_a) was also ignored, but this can only be estimated using repeated injections of a QC sample.</p>
+<p>Here is a more model-based method to obtain the proper variance parameters from the data (usually done for a population-scale data set). We first get the variance / standard deviation values pertaining to the inter- and intra-individual variabilities using linear mixed effects models:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>sid <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>sigma_g <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nlipids)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>sigma_w <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nlipids)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sigma_g) <span class="ot">=</span> <span class="fu">names</span>(sigma_w) <span class="ot">=</span> ltab<span class="sc">$</span>Lipids</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Each lipid</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nlipids) {</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(j <span class="sc">%%</span> <span class="dv">20</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">print</span>(j) <span class="do">## print progress every 20th lipid</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> qdata[,j]</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Fit LME model with simple random effects</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>  <span class="do">## representing individual specific lipid levels</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## (random intercept)</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>  lme.fit <span class="ot">=</span> <span class="fu">lme</span>(y <span class="sc">~</span> <span class="dv">1</span>, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>sid)</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Get the variance component of the random effects </span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>  vv <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">VarCorr</span>(lme.fit)[,<span class="dv">2</span>])</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>  sigma_g[j] <span class="ot">=</span> vv[<span class="dv">1</span>] <span class="do">## inter</span></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>  sigma_w[j] <span class="ot">=</span> vv[<span class="dv">2</span>] <span class="do">## Rest of the error variance goes to intra</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20
+[1] 40
+[1] 60
+[1] 80
+[1] 100
+[1] 120
+[1] 140
+[1] 160
+[1] 180
+[1] 200
+[1] 220
+[1] 240
+[1] 260
+[1] 280
+[1] 300</code></pre>
+</div>
+</div>
+<p>We also write another function that directly translates standard deviation into CoV%:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>cov.logged.sd <span class="ot">=</span> <span class="cf">function</span>(sd.x, <span class="at">logbase=</span><span class="dv">2</span>) {</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  cv <span class="ot">=</span> logbase<span class="sc">^</span>(<span class="fu">log</span>(logbase) <span class="sc">*</span> sd.x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="dv">1</span>  <span class="co">#log function in R is natural log</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(cv) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and compute intra- and inter-individual CoV% values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>COVw_vec <span class="ot">=</span> <span class="fu">cov.logged.sd</span>(sigma_w) <span class="do">## intra-individual CoV (+ analytical)</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>COVg_vec <span class="ot">=</span> <span class="fu">cov.logged.sd</span>(sigma_g) <span class="do">## inter-individual CoV</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Visualize this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(COVw_vec, COVg_vec, <span class="at">xlab=</span><span class="st">"CoV% (intra)"</span>, <span class="at">ylab=</span><span class="st">"CoV% (inter)"</span>, </span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">100</span>), </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col=</span>cl)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">lty=</span><span class="dv">1</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span><span class="sc">/</span><span class="fl">1.2</span>,<span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="at">legend=</span>uclass, <span class="at">col=</span>ucolor, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">ncol=</span><span class="dv">6</span>)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(COVw_vec, COVg_vec, <span class="at">labels =</span> ltab<span class="sc">$</span>Lipids, <span class="at">cex=</span>.<span class="dv">4</span>, <span class="at">col=</span>cl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Part2_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This recovers the main Figure 3 in Tan et al.&nbsp;(except for a few species). I also remark that the CoV_w values are still inclusive of the analytical variability. For this reason, most of the <code>true</code> values will shift to the left side of the canvas had we accounted for the analytical variability. A discussion point: which analytes would be the best clinical markers if (hypothetically) all of them were candidates?</p>
+</section>
+<section id="section-6.-visit-to-visit-variability-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="section-6.-visit-to-visit-variability-analysis">Section 6. Visit-to-visit variability analysis</h2>
+<p>Create a new data set containing the within-individual standard deviation of log2 concentrations for each lipid species. These values will serve as the proxy for “visit-to-visit variability”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>mm <span class="ot">=</span> <span class="fu">match</span>(subjects, sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>qdata.sd <span class="ot">=</span> qdata[mm, ]</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="do">## For each subject, get stdev</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nsubjects) {</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  rid <span class="ot">=</span> <span class="fu">which</span>(sdata<span class="sc">$</span><span class="st">`</span><span class="at">Subject ID</span><span class="st">`</span> <span class="sc">==</span> subjects[i])</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  qdata.sd[i, ] <span class="ot">=</span> <span class="fu">apply</span>(qdata[rid, ], <span class="dv">2</span>, sd)  </span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(qdata.sd) <span class="ot">=</span> subjects</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Get matching plaque volume data</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a>Cluster <span class="ot">=</span> sdata<span class="sc">$</span>Cluster[mm]</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>TotalPL <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">Total Plaque vol index</span><span class="st">`</span>[mm]</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>CalcPL <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">total calc plaq vol index</span><span class="st">`</span>[mm]</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a>LipidPL <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">total lipid plaq vol index</span><span class="st">`</span>[mm]</span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a>FibroPL <span class="ot">=</span> sdata<span class="sc">$</span><span class="st">`</span><span class="at">total fibrot plaq vol index</span><span class="st">`</span>[mm]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now using this new data frame as input, we perform association tests between the visit-to-visit variability and plaque volumes. We first write some functions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>tertiles <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  qpt <span class="ot">=</span> <span class="fu">quantile</span>(x, <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">2</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">1</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  nx <span class="ot">=</span> <span class="fu">length</span>(x)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>, nx)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nx) {</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) {</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(x[i] <span class="sc">&gt;</span> qpt[k] <span class="sc">&amp;</span> x[i] <span class="sc">&lt;=</span> qpt[k<span class="sc">+</span><span class="dv">1</span>]) y[i] <span class="ot">=</span> k</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#y = factor(y, levels=c(1:3))</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>  y</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>quartiles <span class="ot">=</span> <span class="cf">function</span>(x) {</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>  qpt <span class="ot">=</span> <span class="fu">quantile</span>(x, <span class="fu">c</span>(<span class="dv">0</span>,<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="fl">0.75</span>,<span class="dv">1</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>  nx <span class="ot">=</span> <span class="fu">length</span>(x)</span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>, nx)</span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nx) {</span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(x[i] <span class="sc">&gt;</span> qpt[k] <span class="sc">&amp;</span> x[i] <span class="sc">&lt;=</span> qpt[k<span class="sc">+</span><span class="dv">1</span>]) y[i] <span class="ot">=</span> k</span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">#y = factor(y, levels=c(1:4))</span></span>
+<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a>  y</span>
+<span id="cb52-25"><a href="#cb52-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb52-26"><a href="#cb52-26" aria-hidden="true" tabindex="-1"></a><span class="fu">quartiles</span>(LipidPL) <span class="do">## test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[39] 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+[77] 4 4 4</code></pre>
+</div>
+</div>
+<p>Now run through the analysis:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>pval.T <span class="ot">=</span> pval.F <span class="ot">=</span> pval.L <span class="ot">=</span> pval.C <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nlipids)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pval.T) <span class="ot">=</span> <span class="fu">names</span>(pval.L) <span class="ot">=</span> <span class="fu">names</span>(pval.C) <span class="ot">=</span> <span class="fu">colnames</span>(qdata.sd)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nlipids) {</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Total</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>  tmp.test <span class="ot">=</span> <span class="fu">lm</span>(qdata.sd[,j] <span class="sc">~</span> <span class="fu">quartiles</span>(TotalPL))</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  tmp.test<span class="fl">.0</span> <span class="ot">=</span> <span class="fu">lm</span>(qdata.sd[,j] <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  pval.T[j] <span class="ot">=</span> <span class="fu">anova</span>(tmp.test, tmp.test<span class="fl">.0</span>)<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span>[<span class="dv">2</span>]</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Calcified</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>  tmp.test <span class="ot">=</span> <span class="fu">lm</span>(qdata.sd[,j] <span class="sc">~</span> <span class="fu">tertiles</span>(CalcPL))</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>  tmp.test<span class="fl">.0</span> <span class="ot">=</span> <span class="fu">lm</span>(qdata.sd[,j] <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>  pval.C[j] <span class="ot">=</span> <span class="fu">anova</span>(tmp.test, tmp.test<span class="fl">.0</span>)<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span>[<span class="dv">2</span>]</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Lipid-rich</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>  tmp.test <span class="ot">=</span> <span class="fu">lm</span>(qdata.sd[,j] <span class="sc">~</span> <span class="fu">quartiles</span>(LipidPL))</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>  tmp.test<span class="fl">.0</span> <span class="ot">=</span> <span class="fu">lm</span>(qdata.sd[,j] <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>  pval.L[j] <span class="ot">=</span> <span class="fu">anova</span>(tmp.test, tmp.test<span class="fl">.0</span>)<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span>[<span class="dv">2</span>]</span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>  <span class="do">## Fibrotic</span></span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>  tmp.test <span class="ot">=</span> <span class="fu">lm</span>(qdata.sd[,j] <span class="sc">~</span> <span class="fu">quartiles</span>(FibroPL))</span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>  tmp.test<span class="fl">.0</span> <span class="ot">=</span> <span class="fu">lm</span>(qdata.sd[,j] <span class="sc">~</span> <span class="dv">1</span>)</span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>  pval.F[j] <span class="ot">=</span> <span class="fu">anova</span>(tmp.test, tmp.test<span class="fl">.0</span>)<span class="sc">$</span><span class="st">`</span><span class="at">Pr(&gt;F)</span><span class="st">`</span>[<span class="dv">2</span>]</span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We visualize the lipids of which the visit-to-visit variability is associated with the lipid-rich plaque volume:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Again, homogenizing the levels across different plaque types</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="do">## to synchronize colors in the heatmap</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>qdata.sd.norm <span class="ot">=</span> qdata.sd</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(qdata.sd)) qdata.sd.norm[,k] <span class="ot">=</span> qdata.sd.norm[,k] <span class="sc">/</span> <span class="fu">mean</span>(qdata.sd.norm[,k])</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="do">### Lipid-rich plque</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>ord <span class="ot">=</span> <span class="fu">order</span>(LipidPL)</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>col_ha <span class="ot">=</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Cluster=</span>Cluster,</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">Total=</span><span class="fu">anno_barplot</span>(TotalPL),</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">Calcified=</span><span class="fu">anno_barplot</span>(CalcPL),</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>                           <span class="at">LipidRich=</span><span class="fu">anno_barplot</span>(LipidPL),</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">Fibrotic=</span><span class="fu">anno_barplot</span>(FibroPL),</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>                           <span class="at">which=</span><span class="st">"col"</span>, <span class="at">border=</span><span class="cn">TRUE</span>, <span class="at">show_legend=</span><span class="cn">TRUE</span>)</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>sel <span class="ot">=</span> pval.L <span class="sc">&lt;=</span> <span class="fl">0.1</span></span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>row_ha <span class="ot">=</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">LipidClass=</span>ltab<span class="sc">$</span>Class[sel],</span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>                           <span class="at">which=</span><span class="st">"row"</span>, <span class="at">border=</span><span class="cn">TRUE</span>, <span class="at">show_legend=</span><span class="cn">TRUE</span>)</span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345679</span>)</span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">"output/SDassociation_heatmap_LipidRich.pdf"</span>, <span class="at">height=</span><span class="dv">6</span>, <span class="at">width=</span><span class="dv">9</span>)</span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a>X <span class="ot">=</span> <span class="fu">as.matrix</span>(qdata.sd.norm)[,sel]</span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(<span class="fu">t</span>(X), <span class="at">name =</span> <span class="st">"CoV"</span>, </span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">cluster_columns =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb55-25"><a href="#cb55-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">6</span>),</span>
+<span id="cb55-26"><a href="#cb55-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>),</span>
+<span id="cb55-27"><a href="#cb55-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">column_title =</span> <span class="st">"Plaque Group"</span>,</span>
+<span id="cb55-28"><a href="#cb55-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="fl">0.5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>)),</span>
+<span id="cb55-29"><a href="#cb55-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">left_annotation =</span> row_ha,</span>
+<span id="cb55-30"><a href="#cb55-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">top_annotation =</span> col_ha,</span>
+<span id="cb55-31"><a href="#cb55-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_distance_rows =</span> <span class="st">"euclidean"</span>,</span>
+<span id="cb55-32"><a href="#cb55-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_method_rows =</span> <span class="st">"average"</span>,</span>
+<span id="cb55-33"><a href="#cb55-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_distance_columns =</span> <span class="st">"pearson"</span>,</span>
+<span id="cb55-34"><a href="#cb55-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">clustering_method_columns =</span> <span class="st">"average"</span></span>
+<span id="cb55-35"><a href="#cb55-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb55-36"><a href="#cb55-36" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+</div>
+</div>
+<p>Results are slightly different from the published results because we cannot reveal gender and age in this data set (due to the risk of re-identifiability).</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
