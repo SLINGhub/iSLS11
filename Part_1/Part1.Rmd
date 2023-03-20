@@ -200,6 +200,16 @@ plot(p)
 
 ## 8. Normalization and quantification
 
+We decide now to start with processing the data. We will use the ISTD to normalize and calculate ("relative") concentrations, based on the known amount of the spiked-in ISTD and the sample amount.
+
+$$
+[LIPID] = \biggl(\frac{Lipid_i}{ISTD_{class}}\biggr) \biggl(\frac{ISTD_{vol}}{Sample_{amount}}\biggr) 
+$$
+
+In the code below, we are first importing a table that maps each measured lipid species with the ISTD it should be normalized with. Additionally, we import a table that defines the concentrations of the ISTD in the spike-in solution. Furthermore, we know that 4.5 µL ISTD solution was spiked into 10 µL plasma. We first join the tables together as shown in Figure 2, then group the table into ISTD groups, divide all lipids of this group with the ISTD and then rowwise calculate the concentrations.
+
+![**Figure 2:** Joining of mapped ISTD and ISTD concentrations](images/image-406091139.png)
+
 ```{r process-data}
 d_istd_map <- readr::read_csv(file = here("Part_1/data/ISTD_mapping.csv"),
                           col_names = TRUE, trim_ws = TRUE, col_types = "c")
@@ -213,7 +223,7 @@ d_processed <- d_long |>
   mutate(isISTD = (LIPID == ISTD)) |> 
   group_by(ISTD, FILENAME) |> 
   mutate(normAREA = AREA/AREA[isISTD],
-         CONC = normAREA * RF * ISTD_conc_nM/1000 * 4.5/ 10) |> 
+         CONC = normAREA * RF * ISTD_conc_nM / 1000 * 4.5 / 10) |> 
   ungroup()
 ```
 
@@ -396,17 +406,85 @@ We now can (and should) have a look at how many species passed the QC criteria a
 
 d_qc_summary <- d_qc |> filter(QUANTIFIER) |> dplyr::count(CLASS, QC_pass) 
 
-ggplot(d_qc_summary, 
+p <- ggplot(d_qc_summary, 
        aes(x = CLASS, y = n, fill = QC_pass, group = QC_pass)) +
   geom_bar(position="stack", stat="identity") + 
   scale_fill_manual(values = c("FALSE" = "#d6cac9", "TRUE" = "green4")) + 
   scale_x_discrete(limits=rev)+
   coord_flip() + theme_bw()
+
+ggsave(plot = p, filename = here("Part_1/output/qc_summary.pdf"),
+       width = 260, height = 160, units = "mm")
+
 ```
 
-## 14. Saving the final dataset
+## 14. Looking for outliers
 
-We now save the final, drift-corrected and QC-filtered concentration data as a wide CSV table, which will then be used for Part 2.
+And as a last step we use a PCA to understand how our BQCs performed and if we have any outliers that need be investigated.
+
+```{r pca-qc}
+
+  d_pca <- d_processed_corr  |> 
+    filter(QC_TYPE %in% c("BQC", "TQC", "SAMPLE"), !str_detect(LIPID, "IS")) |> 
+    select(FILENAME, QC_TYPE, BATCH, LIPID, CONC_ADJ) |> 
+    pivot_wider(names_from = "LIPID", values_from = CONC_ADJ) |> 
+    drop_na() # NA rows of rows that could not be smoothed before
+
+  # This is the outlier !
+  d_pca <- d_pca |> filter(FILENAME != "LT_batch6_51")
+  
+  
+  d_metadata <- d_pca |>  select(FILENAME, QC_TYPE, BATCH) |>  distinct()
+
+  m_raw <- d_pca |> select(-QC_TYPE, -BATCH) %>%
+    select(where(~!any(is.na(.)))) |>
+    column_to_rownames("FILENAME") |>
+    as.matrix()
+
+ m_raw <- log2(m_raw)
+
+dim_x <- 1
+dim_y <- 2
+  # get pca result with annotation
+  pca_res <- prcomp(m_raw, scale = TRUE, center = TRUE)
+  pca_annot <- pca_res |> broom::augment(d_metadata)
+  pca_contrib <- pca_res |> broom::tidy(matrix = "eigenvalues")
+
+  p <- ggplot(data = pca_annot, aes_string(paste0(".fittedPC", dim_x),
+                                           paste0(".fittedPC", dim_y),
+                                           color = "QC_TYPE",
+                                           fill = "QC_TYPE",
+                                           shape = "QC_TYPE",
+                                           label = "FILENAME"
+  )) +
+    ggplot2::geom_hline(yintercept = 0, size = 0.4, color = "grey80") +
+    ggplot2::geom_vline(xintercept = 0, size = 0.4, color = "grey80") +
+    ggplot2::stat_ellipse(geom = "polygon", level = 0.95,alpha = 0.1, size = 0.3) +
+    ggplot2::geom_point(size = 1)
+
+    p <- p +
+      ggplot2::scale_color_manual(values = qc_colors, drop=TRUE) +
+      ggplot2::scale_fill_manual(values = qc_colors, drop=TRUE)+
+      ggplot2::scale_shape_manual(values = qc_shapes, drop=TRUE)
+
+  p <- p +
+    ggplot2::theme_light(base_size =  10) +
+    ggplot2::xlab(glue::glue("PC{dim_x} ({round(pca_contrib[[dim_x,'percent']]*100,1)}%)"))+
+    ggplot2::ylab(glue::glue("PC{dim_y} ({round(pca_contrib[[dim_y,'percent']]*100,1)}%)"))+
+    ggplot2::theme(
+      panel.grid = ggplot2::element_line(size = 0.3, color = "grey95"),
+      panel.border = ggplot2::element_rect(size = 1, color = "grey70"),
+      aspect.ratio=1)
+
+ ggsave(plot = p, filename = here("Part_1/output/PCA_QC.pdf"),
+       width = 170, height = 170, units = "mm")
+ p
+
+```
+
+## 15. Saving the final dataset
+
+We now save the final, drift-corrected and QC-filtered concentration data as a wide CSV table, which then will be used for Part 2. Have fun! :)
 
 ```{r save-processed-data}
 
@@ -420,5 +498,7 @@ d_final_wide <- d_final |>
 
 write_csv(d_final_wide, here("Part_1/output/qc_filtered_results.csv"))
 ```
+
+## 
 
 # References
