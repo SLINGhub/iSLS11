@@ -2,11 +2,6 @@
 
 *iSLS11 Workshop on Data Processing and Statistical Analysis*
 
-> ```{=html}
-> NOTE: Please ensure you have R/RStudio and R packages installed before the workshop, see below. 
-> Contact us, if you encounter any issues!
-> ```
-
 ## Summary
 
 This repository contains datasets and R codes used for 11th International Singapore Lipid Symposium [iSLS11](https://sling.sg/news-events/isls/) workshop held on March 19, 2023, 2:00 - 6:00 PM (SGT).
